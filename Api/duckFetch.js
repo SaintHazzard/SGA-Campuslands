@@ -1,25 +1,28 @@
 const head = new Headers({ "Content-type": "application/json" })
-const URL_API = "http://localhost:3000/"
-let data = {
-  "id": 1,
-  "nombre": "Consumir api",
-  "estado": "Pendiente"
-}
+const URL_API = "http://localhost:3000/";
 
+/**
+ * 
+ * @param {String} endpoint 
+ * @param {Number} id 
+ * @param {String} request 
+ * @param {Object} data 
+ * @returns {null}
+ */
 async function duckFetch(endpoint, id, request, data) {
   try {
     switch (request) {
       case 'GET':
-        return await request(`${URL_API}${endpoint}`, 'GET');
+        return await HTTPrequest(`${URL_API}${endpoint}`, 'GET');
 
       case 'POST':
-        return await request(`${URL_API}${endpoint}`, 'POST', data);
+        return await HTTPrequest(`${URL_API}${endpoint}`, 'POST', data);
 
       case 'DELETE':
-        return await request(`${URL_API}${endpoint} / ${id}`, 'DELETE');
+        return await HTTPrequest(`${URL_API}${endpoint}/${id}`, 'DELETE');
 
       case 'PUT':
-        return await request(`${URL_API}${endpoint} / ${id}`, 'PUT', data);
+        return await HTTPrequest(`${URL_API}${endpoint}/${id}`, 'PUT', data);
 
       default:
         throw new Error(`Invalid request method: ${request}`);
@@ -29,7 +32,14 @@ async function duckFetch(endpoint, id, request, data) {
   }
 }
 
-async function request(url, method, data = null) {
+/**
+ * 
+ * @param {String} url 
+ * @param {String} method 
+ * @param {Object} data 
+ * @returns {Promise<Object>}
+ */
+async function HTTPrequest(url, method, data = null) {
   const options = {
     method,
     headers: head,
@@ -45,7 +55,9 @@ async function request(url, method, data = null) {
     throw new Error("Error en la petición.");
   }
 
-  return await response.json();
+  if (response.status !== 204) {
+    return await response.json();
+  }
 }
 
 export { duckFetch }
