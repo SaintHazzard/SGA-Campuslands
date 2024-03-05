@@ -1,0 +1,13 @@
+{
+  "name": "sga",
+  "version": "1.0.0",
+  "description": "",
+  "main": "App.js",
+  "type": "module",
+  "scripts": {
+    "server": "json-server --watch Inventario.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
