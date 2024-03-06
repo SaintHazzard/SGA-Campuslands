@@ -1,5 +1,5 @@
 {
-  "InventarioCampuslands": [
+  "products": [
     {
       "id": "1",
       "CodigoTransaccion": 324,
@@ -12942,7 +12942,7 @@
       "Ubicacion": "Zona Hunters "
     }
   ],
-  "Datos": [
+  "data": [
     {
       "Empresa": "Campuslands",
       "CodigoTransaccion": 311,
@@ -13044,7 +13044,7 @@
       "nombre": "Owel Polanco"
     }
   ],
-  "idCategoria": [
+  "caterogi": [
     {
       "id": 1,
       "nombre": "Equipos Cómputo"
@@ -13070,7 +13070,7 @@
       "nombre": "Otros"
     }
   ],
-  "idMarca": [
+  "idMarcas": [
     {
       "id": 1,
       "nombre": "LG"
@@ -13112,7 +13112,7 @@
       "nombre": "J&R"
     }
   ],
-  "idTipo": [
+  "idTipos": [
     {
       "id": 1,
       "nombre": "Monitor"
@@ -13162,7 +13162,7 @@
       "nombre": "Producto"
     }
   ],
-  "tipoMovActivo": [
+  "tipoMovActivos": [
     {
       "id": 1,
       "nombre": "Ingreso"
@@ -13172,7 +13172,7 @@
       "nombre": "Salida"
     }
   ],
-  "historialActivo": [
+  "historialActivos": [
     {
       "id": 1,
       "idActivo": 100,
@@ -13308,7 +13308,7 @@
       "ubicacion": "Bogota"
     }
   ],
-  "asignacion": [
+  "asignaciones": [
     {
       "id": 1,
       "idActivo": 100,
@@ -13324,7 +13324,7 @@
       "idEstado": 1
     }
   ],
-  "tipoActivo": [
+  "tipoActivos": [
     { "id": "1", "nombre": "Monitor" },
     { "id": "2", "nombre": "Cpu" },
     { "id": "3", "nombre": "Teclado" },
@@ -13338,7 +13338,7 @@
     { "id": "11", "nombre": "Cajas" },
     { "id": "12", "nombre": "Producto" }
   ],
-  "detalleMovimiento": [
+  "detalleMovimientos": [
     {
       "id": 1,
       "fecha": "2021-10-01",

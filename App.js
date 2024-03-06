@@ -1,5 +1,7 @@
 import { duckFetch } from "./Api/duckFetch.js";
 import './App/webComponents/sideBar.js'
+import './App/webComponents/header.js'
+import './App/webComponents/main.js'
 class device {
   constructor(id, CodigoTransaccion, Formulario, PEmpresa = null, FechaCompra, Nit, Proveedor, DescripcionItem, Serial, Categoria, Cantidad, Ubicacion = null) {
     this.id = id || null;
