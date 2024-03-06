@@ -1,8 +1,10 @@
-side-bar {
-  height: 100vh;
-  display: flex;
+
+li:hover {
+  background-color: cornflowerblue;
+  border-radius: 1rem;
+  transform: scale(1.05);
 }
 
-.row {
-  flex-direction: row;
+li{
+  transition: 300ms;
 }
