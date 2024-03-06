@@ -1,10 +1,38 @@
-
 li:hover {
   background-color: cornflowerblue;
   border-radius: 1rem;
   transform: scale(1.05);
 }
 
-li{
+li {
   transition: 300ms;
+}
+
+.option {
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.option-header {
+  padding: 10px;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.option-content {
+  padding: 10px;
+  display: none;
+  margin-left: 20px;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.expanded .arrow {
+  transform: rotate(180deg);
 }
