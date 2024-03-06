@@ -18,24 +18,45 @@ class device {
 }
 
 
+
+
+
+
+// let arrayDevices = data.map(item => {
+//   return new device(item.id,
+//     item.CodigoTransaccion,
+//     item.Formulario,
+//     item.PEmpresa, item.FechaCompra,
+//     item.Nit,
+//     item.Proveedor,
+//     item.DescripcionItem,
+//     item.Serial,
+//     item.Categoria,
+//     item.Cantidad,
+//     item.Ubicacion)
+// });
+
+
 let data = await duckFetch('InventarioCampuslands', 1, 'GET', null);
+let dataObject = {};
 
 
-let arrayDevices = data.map(item => {
-  return new device(item.id,
-    item.CodigoTransaccion,
-    item.Formulario,
-    item.PEmpresa, item.FechaCompra,
-    item.Nit,
-    item.Proveedor,
-    item.DescripcionItem,
-    item.Serial,
-    item.Categoria,
-    item.Cantidad,
-    item.Ubicacion)
-});
+(async () => {
+  function instanciarObjetos() {
+    for (const item of data) {
+      dataObject[item.id] = item;
+    }
+    console.log(dataObject);
+  }
+  await instanciarObjetos(dataObject);
+})();
 
-console.log(arrayDevices);
+
+
+
+let arrayProveedores = [...new Set(data.map(item => item.Proveedor).filter(proveedor => proveedor !== undefined))];
+console.log(arrayProveedores);
+
 
 
 

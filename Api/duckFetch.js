@@ -50,6 +50,7 @@ async function HTTPrequest(url, method, data = null) {
   }
 
   const response = await fetch(url, options);
+  console.log(response);
 
   if (!response.ok) {
     throw new Error("Error en la petición.");
