@@ -3,6 +3,7 @@ import './App/webComponents/sideBar.js'
 import './App/webComponents/header.js'
 import './App/webComponents/main.js'
 import './App/webComponents/agregarActivo.js'
+import './App/webComponents/editarActivo.js'
 class device {
   constructor(id, CodigoTransaccion, Formulario, PEmpresa = null, FechaCompra, Nit, Proveedor, DescripcionItem, Serial, Categoria, Cantidad, Ubicacion = null) {
     this.id = id || null;
