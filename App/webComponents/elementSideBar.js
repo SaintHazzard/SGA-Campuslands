@@ -1,5 +1,3 @@
-
-
 export class elementBar extends HTMLElement {
   constructor() {
     super();
@@ -28,12 +26,7 @@ export class elementBar extends HTMLElement {
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm4 12H8v-9h2v9zm6 0h-2v-9h2v9zm.618-15L15 2H9L7.382 4H3v2h18V4z"></path></svg>Eliminar
           </a>
         </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M20 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-6.933 12.481-3.274-3.274 1.414-1.414 1.726 1.726 4.299-5.159 1.537 1.281-5.702 6.84z"></path><path d="M4 22h11v-2H4V8H2v12c0 1.103.897 2 2 2z"></path></svg>            Asignaciones
-          </a>
-        </li>
-      </ul>`
+      </ul>`;
   }
 }
 
