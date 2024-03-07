@@ -1,0 +1,71 @@
+<input
+  type="text"
+  id="autocomplete"
+  oninput="showSuggestions(this.value)"
+  onclick="showAll()"
+/>
+<div id="suggestions"></div>
+
+<script>
+  let data = [
+    "Apple",
+    "Banana",
+    "Cherry",
+    "Date",
+    "Elderberry",
+    "Fig",
+    "Grape",
+  ];
+
+  function showSuggestions(value) {
+    const inputValue = value.toLowerCase();
+    const suggestions = document.getElementById("suggestions");
+    const input = document.getElementById("autocomplete");
+
+    // Limpiar las sugerencias existentes
+    suggestions.innerHTML = "";
+
+    if (inputValue.length === 0) {
+      return;
+    }
+
+    // Filtrar los datos para encontrar coincidencias
+    const matches = data.filter((item) =>
+      item.toLowerCase().startsWith(inputValue)
+    );
+
+    // Crear un nuevo elemento de lista para cada coincidencia
+    matches.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      li.addEventListener("click", () => {
+        // Actualizar el valor del campo de entrada con la sugerencia seleccionada
+        input.value = item;
+        // Limpiar las sugerencias
+        suggestions.innerHTML = "";
+      });
+      suggestions.appendChild(li);
+    });
+  }
+
+  function showAll() {
+    const suggestions = document.getElementById("suggestions");
+    const input = document.getElementById("autocomplete");
+
+    // Limpiar las sugerencias existentes
+    suggestions.innerHTML = "";
+
+    // Crear un nuevo elemento de lista para cada opción
+    data.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      li.addEventListener("click", () => {
+        // Actualizar el valor del campo de entrada con la opción seleccionada
+        input.value = item;
+        // Limpiar las sugerencias
+        suggestions.innerHTML = "";
+      });
+      suggestions.appendChild(li);
+    });
+  }
+</script>

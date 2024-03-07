@@ -44,7 +44,6 @@ class device {
 const navItems = document.querySelectorAll('[class="nav-item"]');
 
 navItems.forEach(li => { li.addEventListener('click', toggleCollapse) });
-console.log(navItems);
 
 function toggleCollapse(event) {
   const navItem = event.target.closest('.nav-item');
@@ -54,9 +53,6 @@ function toggleCollapse(event) {
 
     if (optionContent && optionContent.classList.contains('option-content')) {
       optionContent.style.display = (optionContent.style.display === 'block' || optionContent.style.display === '') ? 'none' : 'block';
-
-      const option = document.querySelector('.option');
-      option.classList.toggle('expanded');
     }
   }
 }

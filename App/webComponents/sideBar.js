@@ -12,25 +12,27 @@ export class sideBar extends HTMLElement {
         <span class="fs-4"></span>
       </a>
       <hr>
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
+      <ul class="nav nav-pills flex-column mb-auto" id="menu">
+        <li class="nav-item" data-component="activos">
           <a href="#" class="nav-link text-white" aria-current="page">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Activos
           </a>
         </li>
         <element-sidebar class="option-content" style="display: none;"></element-sidebar>
-        <li class="nav-item">
+        <li class="nav-item" data-component="marcas">
           <a href="#" class="nav-link text-white" aria-current="page">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Marcas
           </a>
         </li>
         <element-sidebar class="option-content" style="display: none;"></element-sidebar>
-        <li class="nav-item">
+        <li class="nav-item" data-component="marcas">
           <a href="#" class="nav-link text-white" aria-current="page">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Asignar Activo
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Personas
           </a>
         </li>
         <element-sidebar class="option-content" style="display: none;"></element-sidebar>
+        
+        
       </ul>
       
         
@@ -50,9 +52,24 @@ export class sideBar extends HTMLElement {
         </ul>
       </div>
   </div>`
+    this.callForm()
   }
   connectedCallback() {
     this.render()
+  }
+
+  callForm() {
+    let options = this.querySelectorAll('.nav-item');
+    options.forEach((index) => {
+      let word = index.querySelector('a').textContent.replace(/\s+/g, '').slice(0, -1);
+      let opcionesLi = index.nextElementSibling;
+      opcionesLi.querySelectorAll('li').forEach((li) => {
+        li.setAttribute('DATA-SET', `${li.textContent.toLocaleLowerCase()}-${word}`.replace(/\s+/g, '').toLocaleLowerCase());
+        li.addEventListener('click', () => {
+          document.querySelector('.changeContent').innerHTML = `<${li.getAttribute('DATA-SET')}></${li.getAttribute('DATA-SET')} >`
+        })
+      })
+    })
   }
 }
 
