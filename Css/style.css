@@ -36,3 +36,8 @@ li {
 .expanded .arrow {
   transform: rotate(180deg);
 }
+
+.btn-custom{
+  background-color: cadetblue;
+  color: #FFFFFF;
+}
