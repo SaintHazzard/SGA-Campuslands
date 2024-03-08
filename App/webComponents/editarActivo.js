@@ -1,12 +1,16 @@
+import '../../Api/duckFetch.js';
+import { duckFetch } from '../../Api/duckFetch.js';
 export class editarActivo extends HTMLElement {
     constructor() {
-      super();
-      this.render();
-      this.dialogo();
+        super();
+        this.render();
+        this.dialogo();
+        this.showAll();
+        this.filterSuggestions();
     }
-  
+
     render() {
-      this.innerHTML = /* html */ `
+        this.innerHTML = /* html */ `
       <p class = "mx-5"><strong>Editar Activo</strong></p>
       <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
           <symbol xmlns="http://www.w3.org/2000/svg" id="sbx-icon-search-13" viewBox="0 0 40 40">
@@ -17,10 +21,11 @@ export class editarActivo extends HTMLElement {
               <path d="M8.114 10L.944 2.83 0 1.885 1.886 0l.943.943L10 8.113l7.17-7.17.944-.943L20 1.886l-.943.943-7.17 7.17 7.17 7.17.943.944L18.114 20l-.943-.943-7.17-7.17-7.17 7.17-.944.943L0 18.114l.943-.943L8.113 10z" fill-rule="evenodd" />
           </symbol>
       </svg>
-  
+
       <form novalidate="novalidate" onsubmit="return false;" class="searchbox sbx-google mx-5">
           <div role="search" class="sbx-google__wrapper">
-              <input type="search" name="search" placeholder="Buscar" autocomplete="off" required="required" class="sbx-google__input">
+              <input type="search" name="search" placeholder="Buscar" autocomplete="off" required="required" class="sbx-google__input" id="autocomplete">
+              <div id="suggestions"></div>
               <button type="submit" title="Submit your search query." class="sbx-google__submit" id="search-button">
               <svg role="img" aria-label="Search">
                   <use xlink:href="#sbx-icon-search-13"></use>
@@ -54,36 +59,107 @@ export class editarActivo extends HTMLElement {
           document.querySelector('.searchbox [type="reset"]').addEventListener('click', function() {  this.parentNode.querySelector('input').focus();});
       </script>
       `;
-    }  
-    dialogo(){
+    }
+    dialogo() {
         function showDialog() {
             document.getElementById('dialog').style.display = 'block';
         }
 
         let boton = document.getElementById('search-button');
-        boton.addEventListener('click', function() {
+        boton.addEventListener('click', function () {
             showDialog();
             console.log("Alert")
         });
 
-        document.getElementById('submit-dialog').addEventListener('click', function() {
+        document.getElementById('submit-dialog').addEventListener('click', function () {
             alert('Enviar diálogo');
         });
-        
+
         function hideDialog() {
             document.getElementById('dialog').style.display = 'none';
         }
 
-        document.querySelector('.searchbox [type="reset"]').addEventListener('click', function() {  
+        document.querySelector('.searchbox [type="reset"]').addEventListener('click', function () {
             hideDialog();
         });
 
-        document.getElementById('close-button').addEventListener('click', function() {
+        document.getElementById('close-button').addEventListener('click', function () {
             document.getElementById('dialog').style.display = 'none';
         });
 
     }
-  }
-  
-  customElements.define('editar-activo', editarActivo);
-  
+    showSuggestions(value) {
+        const inputValue = value.toLowerCase();
+        const suggestions = document.getElementById("suggestions");
+        const input = document.getElementById("autocomplete");
+
+        // Limpiar las sugerencias existentes
+        suggestions.innerHTML = "";
+
+
+    }
+    async showAll() {
+        const suggestions = document.getElementById("suggestions");
+        const data = await duckFetch('products', null, 'GET', null);
+        const input = document.getElementById("autocomplete")
+        input.addEventListener("click", () => {
+            suggestions.innerHTML = "";
+            data.forEach((item) => {
+                console.log(item);
+                const li = document.createElement("li");
+                li.className = "list-group-item";
+                li.textContent = `${item.id} - ${item.DescripcionItem}`
+                li.addEventListener("click", () => {
+                    // Actualizar el valor del campo de entrada con la opción seleccionada
+                    input.value = item.DescripcionItem;
+                    // Limpiar las sugerencias
+                    suggestions.innerHTML = "";
+                });
+                suggestions.appendChild(li);
+            });
+        });
+        // Limpiar las sugerencias existentes
+    }
+
+    async filterSuggestions() {
+        const suggestions = document.getElementById("suggestions");
+        const data = await duckFetch('products', null, 'GET', null);
+        const input = document.getElementById("autocomplete")
+        input.addEventListener('input', () => {
+            console.log('entra1');
+            if (input.value.length === 0) {
+                return;
+            }
+            suggestions.innerHTML = "";
+            data.forEach(item => {
+                // console.log(input.value.includes(item.DescripcionItem));
+
+
+                let nombreItem = item.DescripcionItem;
+
+                // Verifica si la descripción del item existe
+                if (nombreItem) {
+                    // Convierte el valor del input y la descripción del item a minúsculas
+                    let wordInput = input.value.toLowerCase();
+
+                    if (nombreItem.toLowerCase().includes(wordInput)) {
+                        console.log('entra2');
+
+                        const li = document.createElement("li");
+                        li.className = "list-group-item";
+                        li.textContent = `${item.id} - ${item.DescripcionItem}`
+                        li.addEventListener("click", () => {
+                            input.value = item.DescripcionItem;
+                            suggestions.innerHTML = "";
+                        });
+
+                        suggestions.appendChild(li);
+                    }
+                }
+
+            });
+        })
+    }
+}
+
+customElements.define('editar-activo', editarActivo);
