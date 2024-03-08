@@ -1,12 +1,14 @@
 import '../../Api/duckFetch.js';
 import { duckFetch } from '../../Api/duckFetch.js';
 export class editarActivo extends HTMLElement {
+    searchButton;
     constructor() {
         super();
         this.render();
         this.dialogo();
         this.showAll();
         this.filterSuggestions();
+        this.getProduct()
     }
 
     render() {
@@ -59,14 +61,17 @@ export class editarActivo extends HTMLElement {
           document.querySelector('.searchbox [type="reset"]').addEventListener('click', function() {  this.parentNode.querySelector('input').focus();});
       </script>
       `;
+        this.searchButton = this.querySelector('#search-button');
     }
-    dialogo() {
+
+    async dialogo() {
         function showDialog() {
-            document.getElementById('dialog').style.display = 'block';
+            document.getElementById('dialog').style.display = 'flex';
         }
 
-        let boton = document.getElementById('search-button');
-        boton.addEventListener('click', function () {
+        console.log(this.searchButton);
+
+        this.searchButton.addEventListener('click', function () {
             showDialog();
             console.log("Alert")
         });
@@ -88,16 +93,6 @@ export class editarActivo extends HTMLElement {
         });
 
     }
-    showSuggestions(value) {
-        const inputValue = value.toLowerCase();
-        const suggestions = document.getElementById("suggestions");
-        const input = document.getElementById("autocomplete");
-
-        // Limpiar las sugerencias existentes
-        suggestions.innerHTML = "";
-
-
-    }
     async showAll() {
         const suggestions = document.getElementById("suggestions");
         const data = await duckFetch('products', null, 'GET', null);
@@ -105,20 +100,20 @@ export class editarActivo extends HTMLElement {
         input.addEventListener("click", () => {
             suggestions.innerHTML = "";
             data.forEach((item) => {
-                console.log(item);
                 const li = document.createElement("li");
                 li.className = "list-group-item";
                 li.textContent = `${item.id} - ${item.DescripcionItem}`
                 li.addEventListener("click", () => {
-                    // Actualizar el valor del campo de entrada con la opción seleccionada
-                    input.value = item.DescripcionItem;
-                    // Limpiar las sugerencias
+                    input.value = item.DescripcionItem; // Muestra la descripción en el input
+                    input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
                     suggestions.innerHTML = "";
+                    this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
+                        console.log(producto);
+                    });
                 });
                 suggestions.appendChild(li);
             });
         });
-        // Limpiar las sugerencias existentes
     }
 
     async filterSuggestions() {
@@ -134,14 +129,11 @@ export class editarActivo extends HTMLElement {
             data.forEach(item => {
                 // console.log(input.value.includes(item.DescripcionItem));
 
-
                 let nombreItem = item.DescripcionItem;
-
                 // Verifica si la descripción del item existe
                 if (nombreItem) {
                     // Convierte el valor del input y la descripción del item a minúsculas
                     let wordInput = input.value.toLowerCase();
-
                     if (nombreItem.toLowerCase().includes(wordInput)) {
                         console.log('entra2');
 
@@ -149,10 +141,13 @@ export class editarActivo extends HTMLElement {
                         li.className = "list-group-item";
                         li.textContent = `${item.id} - ${item.DescripcionItem}`
                         li.addEventListener("click", () => {
-                            input.value = item.DescripcionItem;
+                            input.value = item.DescripcionItem; // Muestra la descripción en el input
+                            input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
                             suggestions.innerHTML = "";
+                            this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
+                                console.log(producto);
+                            });
                         });
-
                         suggestions.appendChild(li);
                     }
                 }
@@ -160,6 +155,11 @@ export class editarActivo extends HTMLElement {
             });
         })
     }
+    async getProduct(pro) {
+        let productoGet = await duckFetch('products', pro, 'GET', null);
+        return productoGet
+    }
+
 }
 
 customElements.define('editar-activo', editarActivo);

@@ -13,6 +13,9 @@ async function duckFetch(endpoint, id, request, data) {
   try {
     switch (request) {
       case 'GET':
+        if (id) {
+          return await HTTPrequest(`${URL_API}${endpoint}/${id}`, 'GET');
+        }
         return await HTTPrequest(`${URL_API}${endpoint}`, 'GET');
 
       case 'POST':

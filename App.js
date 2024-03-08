@@ -18,6 +18,31 @@ class device {
     this.Categoria = Categoria || null;
     this.Cantidad = Cantidad || null;
     this.Ubicacion = Ubicacion || null;
+    this.cardHtml = /*html*/`<div id="dialog" class="modal">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">${this.DescripcionItem}</h5>
+                        <button type="button" class="btn-close" aria-label="Close" id="close-button"></button>
+                    </div>
+                    <div class="modal-body">
+                        Contenido del diálogo
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="submit-dialog">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+    this.cardHtml.querySelector(".botonVer").addEventListener('click', this.mostrarInfo);
+  }
+  mostrarInfo() {
+    document.getElementById('modalTitle').textContent = this.nombre;
+    document.getElementById('modalDescription').textContent = this.descripcion;
+    document.getElementById('modalFecha').textContent = this.fecha
+    document.getElementById('myModal').style.display = 'flex';
+    document.querySelector(".imgModal").src = this.foto
+    document.querySelector('.close').classList.add(`${this.universo}`)
   }
 }
 

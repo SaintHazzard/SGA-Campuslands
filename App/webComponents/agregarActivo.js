@@ -117,23 +117,23 @@ export class agregarActivo extends HTMLElement {
   }
   addOptions() {
     const selectElements = this.querySelectorAll('.form-select')
-    duckFetch('marcas', 1, 'GET', null).then(data => {
+    duckFetch('marcas', null, 'GET', null).then(data => {
       const marcas = data.map(marca => marca.nombre);
       selectElements[0].innerHTML += marcas.map(marca => `<option>${marca}</option>`).join('');
     });
-    duckFetch('categories', 1, 'GET', null).then(data => {
+    duckFetch('categories', null, 'GET', null).then(data => {
       const categorias = data.map(categoria => categoria.nombre);
       selectElements[1].innerHTML += categorias.map(categoria => `<option>${categoria}</option>`).join('');
     });
-    duckFetch('tipos', 1, 'GET', null).then(data => {
+    duckFetch('tipos', null, 'GET', null).then(data => {
       const tipos = data.map(tipo => tipo.nombre);
       selectElements[2].innerHTML += tipos.map(tipo => `<option>${tipo}</option>`).join('');
     });
-    duckFetch('providers', 1, 'GET', null).then(data => {
+    duckFetch('providers', null, 'GET', null).then(data => {
       const proveedores = data.map(proveedor => proveedor.nombre);
       selectElements[3].innerHTML += proveedores.map(proveedor => `<option>${proveedor}</option>`).join('');
     });
-    duckFetch('estados', 1, 'GET', null).then(data => {
+    duckFetch('estados', null, 'GET', null).then(data => {
       const estados = data.map(estado => estado.nombre);
       selectElements[4].innerHTML += estados.map(estado => `<option>${estado}</option>`).join('');
     });
