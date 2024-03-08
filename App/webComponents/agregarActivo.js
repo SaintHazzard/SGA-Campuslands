@@ -14,14 +14,14 @@ export class agregarActivo extends HTMLElement {
                   <label for="validationCustom01" class="form-label">Código de Transacción</label>
                   <input type="text" class="form-control" id="validationCustom01" value="" required>
                   <div class="valid-feedback">
-                    Looks good!
+                    Correcto!
                   </div>
                 </div>
                 <div class="col-md-4">
                   <label for="validationCustom02" class="form-label">Número de formulario</label>
                   <input type="text" class="form-control" id="validationCustom02" value="" required>
                   <div class="valid-feedback">
-                    Looks good!
+                    Correcto!
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -30,7 +30,7 @@ export class agregarActivo extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Please select a valid state.
+                      Seleccione una marca.
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -39,7 +39,7 @@ export class agregarActivo extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Please select a valid state.
+                      Seleccione una categoria. 
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -48,14 +48,14 @@ export class agregarActivo extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Please select a valid state.
+                      Seleccione un tipo.
                     </div>
                 </div>
                 <div class="col-md-3">
                   <label for="validationCustom03" class="form-label">Valor Unitario</label>
                   <input type="text" class="form-control" id="validationCustom07" required>
                   <div class="invalid-feedback">
-                    Please provide a valid value.
+                    Escriba un valor númerico.
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -65,21 +65,21 @@ export class agregarActivo extends HTMLElement {
                   
                   </select>
                   <div class="invalid-feedback">
-                    Please select a valid state.
+                    Seleccione un proveedor.
                   </div>
                 </div>
                 <div class="col-md-4">
                     <label for="validationCustom03" class="form-label">Número de Serial</label>
                     <input type="text" class="form-control" id="validationCustom09" required>
                     <div class="invalid-feedback">
-                      Please provide a valid serial.
+                      Escriba un valor númerico.
                     </div>
                 </div>
                 <div class="col-md-4">
                     <label for="validationCustom03" class="form-label">Empresa responsable</label>
                     <input type="text" class="form-control" id="validationCustom10" required>
                     <div class="invalid-feedback">
-                      Please provide a valid serial.
+                      Seleccione una empresa.
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -88,7 +88,7 @@ export class agregarActivo extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Please select a valid state.
+                      Seleccione un estado.
                     </div>
                 </div>
                 <div class="col-12">
