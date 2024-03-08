@@ -26,7 +26,7 @@ export class editarActivo extends HTMLElement {
 
       <form novalidate="novalidate" onsubmit="return false;" class="searchbox sbx-google mx-5">
           <div role="search" class="sbx-google__wrapper">
-              <input type="search" name="search" placeholder="Buscar" autocomplete="off" required="required" class="sbx-google__input" id="autocomplete">
+              <input type="search" name="search" placeholder="Nombre o Serial..." autocomplete="off" required="required" class="sbx-google__input" id="autocomplete">
               <div id="suggestions"></div>
               <button type="submit" title="Submit your search query." class="sbx-google__submit" id="search-button">
               <svg role="img" aria-label="Search">
