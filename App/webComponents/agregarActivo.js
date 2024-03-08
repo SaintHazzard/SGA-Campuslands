@@ -8,6 +8,7 @@ export class agregarActivo extends HTMLElement {
 
   render() {
     this.innerHTML = /* html */ `
+        <p class = "mx-5"><strong>Agregar Activo</strong></p>
         <div class="m-5" id="formAdd">
             <form class="row g-3 needs-validation" novalidate>
                 <div class="col-md-4">
