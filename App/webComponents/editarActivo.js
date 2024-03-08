@@ -111,7 +111,23 @@ export class editarActivo extends HTMLElement {
                     input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
                     suggestions.innerHTML = "";
                     this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
-                        console.log(producto);
+                        let agregarActivoComponent = this.querySelector('agregar-activo');
+                        let casillas = agregarActivoComponent.querySelectorAll('[id*="validationCustom"]');
+                        casillas[0].value = producto.CodigoTransaccion
+                        casillas[1].value = producto.Formulario
+                        casillas[2].value = producto.Proveedor
+                        casillas[3].value = duckFetch('categories', producto.categoryId, 'GET', null)
+                        casillas[4].value = duckFetch('tipos', producto.tipoId, 'GET', null)
+                        casillas[5].value = producto.unitValue
+                        casillas[6].value = producto.Proveedor
+                        casillas[7].value = producto.Serial
+                        casillas[8].value = producto.PEmpresa
+                        casillas[9].value = duckFetch('estados', producto.estadoId, 'GET', null)
+                        // let arrayVals = Object.values(producto);
+                        // for (let i = 1; i < arrayVals.length; i++) {
+                        //     // const element = array[i];
+                        // }
+
                     });
                 });
                 suggestions.appendChild(li);
@@ -145,7 +161,10 @@ export class editarActivo extends HTMLElement {
                             input.dataset.productId = item.id;
                             suggestions.innerHTML = "";
                             this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
-                                console.log(producto);
+                                let agregarActivoComponent = this.querySelector('agregar-activo');
+                                let casillas = agregarActivoComponent.querySelectorAll('[id*="validationCustom"]');
+                                console.log(casillas);
+
                             });
                         });
                         suggestions.appendChild(li);
@@ -167,6 +186,7 @@ export class editarActivo extends HTMLElement {
     async showDetailProduct() {
         await customElements.whenDefined('agregar-activo');
         let agregarActivoComponent = this.querySelector('agregar-activo');
+        let parrafo = agregarActivoComponent.querySelector('p')
         if (agregarActivoComponent) {
             let button = agregarActivoComponent.querySelector('button');
             if (button) {
