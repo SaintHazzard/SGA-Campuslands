@@ -92,7 +92,7 @@ export class agregarActivo extends HTMLElement {
                     </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-dark" type="submit">Agregar Activo</button>
+                    <button class="btn btn-dark" type="submit" id="addAsset">Agregar Activo</button>
                 </div>
               </form>
         </div>

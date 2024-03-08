@@ -8,7 +8,7 @@ export class editarActivo extends HTMLElement {
         this.dialogo();
         this.showAll();
         this.filterSuggestions();
-        this.getProduct()
+        this.getProduct();
     }
 
     render() {
@@ -40,16 +40,16 @@ export class editarActivo extends HTMLElement {
               </button>
           </div>
       </form>
-  
+
       <div id="dialog" class="modal">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered" id="modal-editado">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Editar</h5>
                         <button type="button" class="btn-close" aria-label="Close" id="close-button"></button>
                     </div>
                     <div class="modal-body">
-                        Contenido del diálogo
+                        <agregar-activo></agregar-activo>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submit-dialog">Guardar</button>
@@ -62,14 +62,17 @@ export class editarActivo extends HTMLElement {
       </script>
       `;
         this.searchButton = this.querySelector('#search-button');
+
+        // let button = this.editarActivo.querySelector('.addAsset')
+        // console.log(button);
+
+        // this.editarActivo.remove(button);
     }
 
     async dialogo() {
         function showDialog() {
             document.getElementById('dialog').style.display = 'flex';
         }
-
-        console.log(this.searchButton);
 
         this.searchButton.addEventListener('click', function () {
             showDialog();
@@ -127,22 +130,19 @@ export class editarActivo extends HTMLElement {
             }
             suggestions.innerHTML = "";
             data.forEach(item => {
-                // console.log(input.value.includes(item.DescripcionItem));
 
                 let nombreItem = item.DescripcionItem;
-                // Verifica si la descripción del item existe
-                if (nombreItem) {
-                    // Convierte el valor del input y la descripción del item a minúsculas
+                if (nombreItem && item.Serial) {
                     let wordInput = input.value.toLowerCase();
-                    if (nombreItem.toLowerCase().includes(wordInput)) {
+                    if (nombreItem.toLowerCase().includes(wordInput) || item.Serial.toLowerCase().includes(wordInput)) {
                         console.log('entra2');
 
                         const li = document.createElement("li");
                         li.className = "list-group-item";
                         li.textContent = `${item.id} - ${item.DescripcionItem}`
                         li.addEventListener("click", () => {
-                            input.value = item.DescripcionItem; // Muestra la descripción en el input
-                            input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
+                            input.value = item.DescripcionItem;
+                            input.dataset.productId = item.id;
                             suggestions.innerHTML = "";
                             this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
                                 console.log(producto);
@@ -158,6 +158,24 @@ export class editarActivo extends HTMLElement {
     async getProduct(pro) {
         let productoGet = await duckFetch('products', pro, 'GET', null);
         return productoGet
+    }
+
+    connectedCallback() {
+        this.showDetailProduct();
+    }
+
+    async showDetailProduct() {
+        await customElements.whenDefined('agregar-activo');
+        let agregarActivoComponent = this.querySelector('agregar-activo');
+        if (agregarActivoComponent) {
+            let button = agregarActivoComponent.querySelector('button');
+            if (button) {
+                button.remove();
+            }
+            if (parrafo) {
+                parrafo.remove()
+            }
+        }
     }
 
 }
