@@ -286,9 +286,11 @@ li {
 }
 
 main-content {
-  width: 80%;
+  width: 100%;
   display: flex;
   margin: auto;
+  height: 80vh;
+  overflow-y: scroll ;
 }
 .cPrincipal {
   width: 100%;
