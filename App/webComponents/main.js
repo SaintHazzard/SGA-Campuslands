@@ -20,16 +20,16 @@ export class mainContent extends HTMLElement {
         </div>
       </div>
 
-      <h2>Section title</h2>
+      <h2>Activos</h2>
       <div class="table-responsive small">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Header</th>
-              <th scope="col">Header</th>
-              <th scope="col">Header</th>
-              <th scope="col">Header</th>
+              <th scope="col">id</th>
+              <th scope="col">Descripcion</th>
+              <th scope="col">Marca</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Categoria</th>
             </tr>
           </thead>
           <tbody>
