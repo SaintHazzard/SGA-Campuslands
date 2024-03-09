@@ -115,18 +115,48 @@ export class editarActivo extends HTMLElement {
                         let casillas = agregarActivoComponent.querySelectorAll('[id*="validationCustom"]');
                         casillas[0].value = producto.CodigoTransaccion
                         casillas[1].value = producto.Formulario
-                        casillas[2].value = producto.Proveedor
-                        casillas[3].value = duckFetch('categories', producto.categoryId, 'GET', null)
-                        casillas[4].value = duckFetch('tipos', producto.tipoId, 'GET', null)
-                        casillas[5].value = producto.unitValue
-                        casillas[6].value = producto.Proveedor
+                        let marca = casillas[2]
+                        let categorySelect = casillas[3];
+                        let tipoSelect = casillas[4];
+                        duckFetch('marcas', producto.marcaId, 'GET', null)
+                            .then(marcaData => {
+                                console.log(marcaData);
+
+                                marca.value = marcaData.value;
+                                marca.querySelector(`option[value="${marcaData.nombre}"]`).selected = true;
+
+                            })
+                        duckFetch('categories', producto.categoryId, 'GET', null)
+                            .then(categoryData => {
+                                categorySelect.value = categoryData.value;
+                                categorySelect.querySelector(`option[value="${categoryData.nombre}"]`).selected = true;
+                            });
+
+                        duckFetch('tipos', producto.tipoId, 'GET', null)
+                            .then(tipoData => {
+                                tipoSelect.value = tipoData.value;
+
+                                tipoSelect.querySelector(`option[value="${tipoData.nombre}"]`).selected = true;
+                            });
+
+                        casillas[5].value = producto.unitValue || 900000
+                        let proveedor = casillas[6];
+                        console.log(proveedor);
+
+                        duckFetch('providers', producto.providerId, 'GET', null).then(proveedorData => {
+                            console.log(proveedorData);
+                            proveedor.value = proveedorData.value;
+                            proveedor.querySelector(`option[value="${proveedorData.nombre}"]`).selected = true;
+                        })
                         casillas[7].value = producto.Serial
                         casillas[8].value = producto.PEmpresa
-                        casillas[9].value = duckFetch('estados', producto.estadoId, 'GET', null)
-                        // let arrayVals = Object.values(producto);
-                        // for (let i = 1; i < arrayVals.length; i++) {
-                        //     // const element = array[i];
-                        // }
+                        let estado = casillas[9]
+
+                        duckFetch('estados', producto.estadoId, 'GET', null).then(estadoData => {
+                            console.log(estadoData);
+                            estado.value = estadoData.value;
+                            estado.querySelector(`option[value="${estadoData.nombre}"]`).selected = true;
+                        })
 
                     });
                 });
@@ -163,7 +193,6 @@ export class editarActivo extends HTMLElement {
                             this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
                                 let agregarActivoComponent = this.querySelector('agregar-activo');
                                 let casillas = agregarActivoComponent.querySelectorAll('[id*="validationCustom"]');
-                                console.log(casillas);
 
                             });
                         });
