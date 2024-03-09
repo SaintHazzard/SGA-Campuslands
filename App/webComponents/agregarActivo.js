@@ -115,7 +115,7 @@ export default class agregarActivo extends HTMLElement {
         }
         try {
 
-          data.id = String(autoIncrementalId());
+          data.id = await String(autoIncrementalId());
           const response = await duckFetch('products', newId, 'POST', data);
 
           if (response) {
