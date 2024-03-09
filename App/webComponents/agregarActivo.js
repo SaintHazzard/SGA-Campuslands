@@ -1,4 +1,5 @@
 import { duckFetch } from "../../Api/duckFetch.js";
+import { autoIncrementalId } from "../../Api/autoIncremental.js";
 export default class agregarActivo extends HTMLElement {
   constructor() {
     super();
@@ -99,8 +100,6 @@ export default class agregarActivo extends HTMLElement {
     this.querySelector('#addAsset').addEventListener('click', async () => {
       const form = this.querySelector('form');
       if (form.checkValidity()) {
-        console.log(form[3].options[form[3].value]);
-
         const data = {
           "CodigoTransaccion": form[0].value,
           "DescripcionItem": `${form[3].options[form[3].value].text} ${form[2].options[form[2].value].text} ${form[4].options[form[4].value].text}`,
@@ -115,12 +114,9 @@ export default class agregarActivo extends HTMLElement {
           "estadoId": form[9].value
         }
         try {
-          let dataId = await duckFetch('products', null, 'GET', null);
-          let newId = Math.max(...dataId.map(product => Number(product.id))) + 1;
-          data.id = newId;
-          console.log(newId);
+
+          data.id = String(autoIncrementalId());
           const response = await duckFetch('products', newId, 'POST', data);
-          console.log(response);
 
           if (response) {
             Swal.fire({
