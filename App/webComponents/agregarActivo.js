@@ -91,6 +91,13 @@ export default class agregarActivo extends HTMLElement {
                       Seleccione un estado.
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <label for="validationCustom03" class="form-label">Descripcion del activo</label>
+                    <input type="text" class="form-control" id="validationCustom10" required>
+                    <div class="invalid-feedback">
+                      Escribir Descripcion.
+                    </div>
+                </div>
                 <div class="col-12">
                     <button class="btn btn-dark" type="submit" id="addAsset">Agregar Activo</button>
                 </div>
@@ -102,7 +109,7 @@ export default class agregarActivo extends HTMLElement {
       if (form.checkValidity()) {
         const data = {
           "CodigoTransaccion": form[0].value,
-          "DescripcionItem": `${form[3].options[form[3].value].text} ${form[2].options[form[2].value].text} ${form[4].options[form[4].value].text}`,
+          "DescripcionItem": form[10].value,
           "Formulario": form[1].value,
           "marcaId": form[2].value,
           "categoryId": form[3].value,
