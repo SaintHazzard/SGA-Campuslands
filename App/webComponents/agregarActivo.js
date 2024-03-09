@@ -99,8 +99,11 @@ export default class agregarActivo extends HTMLElement {
     this.querySelector('#addAsset').addEventListener('click', async () => {
       const form = this.querySelector('form');
       if (form.checkValidity()) {
+        console.log(form[3].options[form[3].value]);
+
         const data = {
           "CodigoTransaccion": form[0].value,
+          "DescripcionItem": `${form[3].options[form[3].value].text} ${form[2].options[form[2].value].text} ${form[4].options[form[4].value].text}`,
           "Formulario": form[1].value,
           "marcaId": form[2].value,
           "categoryId": form[3].value,
@@ -113,7 +116,9 @@ export default class agregarActivo extends HTMLElement {
         }
         try {
           let dataId = await duckFetch('products', null, 'GET', null);
-          let newId = Math.max(...dataId.map(product => product.id)) + 1;
+          let newId = Math.max(...dataId.map(product => Number(product.id))) + 1;
+          data.id = newId;
+          console.log(newId);
           const response = await duckFetch('products', newId, 'POST', data);
           console.log(response);
 
