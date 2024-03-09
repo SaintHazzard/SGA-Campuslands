@@ -63,7 +63,12 @@ export class eliminarActivo extends buscarActivo {
         let editarActivoComponent = this.querySelector('buscar-activo');
         let parrafo = editarActivoComponent.querySelector('p')
         let modalTittle = editarActivoComponent.querySelector('.modal-title');
-
+        let modalFooter = editarActivoComponent.querySelector('.modal-footer');
+        let deletbutton = document.createElement("button");
+        deletbutton.className = "btn btn-danger";
+        deletbutton.textContent = "Eliminar"
+        modalFooter.appendChild(deletbutton);
+        let boton = editarActivoComponent.querySelector('.btn');
         if (editarActivoComponent) {
             modalTittle.textContent = "Detalle Activo a eliminar";
             // let button = editarActivoComponent.querySelector('.btn-primary');
@@ -73,6 +78,7 @@ export class eliminarActivo extends buscarActivo {
             if (parrafo) {
                 parrafo.remove()
             }
+            
         }
     }
 }
