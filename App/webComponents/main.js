@@ -5,7 +5,7 @@ export class mainContent extends HTMLElement {
   }
 
   render() {
-    this.innerHTML += /*html*/`<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    this.innerHTML += /*html*/`<main class="col-md-9 col-lg-10 px-md-4 changeContent">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
@@ -19,8 +19,6 @@ export class mainContent extends HTMLElement {
           </button>
         </div>
       </div>
-
-      <canvas class="my-4 w-100" id="myChart" width="1044" height="441" style="display: block; box-sizing: border-box; height: 441px; width: 1044px;"></canvas>
 
       <h2>Section title</h2>
       <div class="table-responsive small">
@@ -151,10 +149,6 @@ export class mainContent extends HTMLElement {
         </table>
       </div>
     </main>`
-  }
-
-  connectedCallback() {
-    this.render();
   }
 }
 

@@ -286,6 +286,15 @@ li {
 }
 
 main-content {
+  width: 80%;
   display: flex;
-  flex-direction: row;
+  margin: auto;
+}
+.cPrincipal {
+  width: 100%;
+}
+.changeContent {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
 }
