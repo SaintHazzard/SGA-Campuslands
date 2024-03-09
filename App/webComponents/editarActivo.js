@@ -1,7 +1,6 @@
 import '../../Api/duckFetch.js';
 import { duckFetch } from '../../Api/duckFetch.js';
-export class editarActivo extends HTMLElement {
-    searchButton;
+export default class editarActivo extends HTMLElement {
     constructor() {
         super();
         this.render();
@@ -11,7 +10,7 @@ export class editarActivo extends HTMLElement {
         this.getProduct();
     }
 
-    render() {
+    async render() {
         this.innerHTML = /* html */ `
       <p class = "mx-5"><strong>Editar Activo</strong></p>
       <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
@@ -63,10 +62,11 @@ export class editarActivo extends HTMLElement {
       `;
         this.searchButton = this.querySelector('#search-button');
 
-        // let button = this.editarActivo.querySelector('.addAsset')
-        // console.log(button);
-
-        // this.editarActivo.remove(button);
+        this.submitButton = this.querySelector("#submit-dialog")
+        this.searchBox = this.querySelector('.searchbox [type="reset"]')
+        this.closeButton = this.querySelector('#close-button')
+        this.suggestions = document.getElementById("suggestions");
+        this.data = await duckFetch('products', null, 'GET', null);
     }
 
     async dialogo() {
@@ -76,33 +76,53 @@ export class editarActivo extends HTMLElement {
 
         this.searchButton.addEventListener('click', function () {
             showDialog();
-            console.log("Alert")
         });
 
-        document.getElementById('submit-dialog').addEventListener('click', function () {
-            alert('Enviar diálogo');
+        this.submitButton.addEventListener('click', async () => {
+            let input = document.getElementById('autocomplete');
+            let producto = await this.getProduct(input.dataset.productId);
+            const form = this.querySelector('form.row');
+
+            if (form.checkValidity()) {
+                const data = {
+                    "CodigoTransaccion": form[0].value,
+                    "Formulario": form[1].value,
+                    "marcaId": form[2].value,
+                    "categoryId": form[3].value,
+                    "tipoId": form[4].value,
+                    "unitValue": form[5].value,
+                    "providerId": form[6].value,
+                    "Serial": form[7].value,
+                    "PEmpresa": form[8].value,
+                    "estadoId": form[9].value
+                }
+                const mixData = { ...producto, ...data }
+
+                await duckFetch('products', producto.id, 'PUT', mixData);
+                Swal.fire({
+                    title: "Active modified!",
+                    text: "Brrrrrrrrrrrrrrrrrrrrrr",
+                    icon: "success"
+                });
+            }
+
+
         });
 
         function hideDialog() {
             document.getElementById('dialog').style.display = 'none';
         }
 
-        document.querySelector('.searchbox [type="reset"]').addEventListener('click', function () {
-            hideDialog();
-        });
-
-        document.getElementById('close-button').addEventListener('click', function () {
+        this.closeButton.addEventListener('click', function () {
             document.getElementById('dialog').style.display = 'none';
         });
 
     }
     async showAll() {
-        const suggestions = document.getElementById("suggestions");
-        const data = await duckFetch('products', null, 'GET', null);
-        const input = document.getElementById("autocomplete")
+        const input = this.querySelector("#autocomplete")
         input.addEventListener("click", () => {
-            suggestions.innerHTML = "";
-            data.forEach((item) => {
+            this.suggestions.innerHTML = "";
+            this.data.forEach((item) => {
                 const li = document.createElement("li");
                 li.className = "list-group-item";
                 li.textContent = `${item.id} - ${item.DescripcionItem}`
@@ -110,9 +130,7 @@ export class editarActivo extends HTMLElement {
                     input.value = item.DescripcionItem; // Muestra la descripción en el input
                     input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
                     suggestions.innerHTML = "";
-                    this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
-                        console.log(producto);
-                    });
+                    this.getProduct(input.dataset.productId).then(producto => this.fillInfoProduct(producto));
                 });
                 suggestions.appendChild(li);
             });
@@ -120,23 +138,19 @@ export class editarActivo extends HTMLElement {
     }
 
     async filterSuggestions() {
-        const suggestions = document.getElementById("suggestions");
-        const data = await duckFetch('products', null, 'GET', null);
         const input = document.getElementById("autocomplete")
         input.addEventListener('input', () => {
-            console.log('entra1');
             if (input.value.length === 0) {
                 return;
             }
-            suggestions.innerHTML = "";
-            data.forEach(item => {
-
+            this.suggestions.innerHTML = "";
+            this.data.forEach(item => {
                 let nombreItem = item.DescripcionItem;
+                let serial = item.Serial || nombreItem;
+
                 if (nombreItem && item.Serial) {
                     let wordInput = input.value.toLowerCase();
-                    if (nombreItem.toLowerCase().includes(wordInput) || item.Serial.toLowerCase().includes(wordInput)) {
-                        console.log('entra2');
-
+                    if (nombreItem.toLowerCase().includes(wordInput) || serial.toLowerCase().includes(wordInput)) {
                         const li = document.createElement("li");
                         li.className = "list-group-item";
                         li.textContent = `${item.id} - ${item.DescripcionItem}`
@@ -144,9 +158,7 @@ export class editarActivo extends HTMLElement {
                             input.value = item.DescripcionItem;
                             input.dataset.productId = item.id;
                             suggestions.innerHTML = "";
-                            this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
-                                console.log(producto);
-                            });
+                            this.getProduct(input.dataset.productId).then(producto => this.fillInfoProduct(producto));
                         });
                         suggestions.appendChild(li);
                     }
@@ -167,6 +179,7 @@ export class editarActivo extends HTMLElement {
     async showDetailProduct() {
         await customElements.whenDefined('agregar-activo');
         let agregarActivoComponent = this.querySelector('agregar-activo');
+        let parrafo = agregarActivoComponent.querySelector('p')
         if (agregarActivoComponent) {
             let button = agregarActivoComponent.querySelector('button');
             if (button) {
@@ -178,6 +191,51 @@ export class editarActivo extends HTMLElement {
         }
     }
 
+    async fillInfoProduct(producto) {
+        let agregarActivoComponent = this.querySelector('agregar-activo');
+        let casillas = agregarActivoComponent.querySelectorAll('[id*="validationCustom"]');
+        casillas[0].value = producto.CodigoTransaccion || "No especificado"
+        casillas[1].value = producto.Formulario || "No especificado"
+        let marca = casillas[2]
+        let categorySelect = casillas[3];
+        let tipoSelect = casillas[4];
+        duckFetch('marcas', producto.marcaId, 'GET', null)
+            .then(marcaData => {
+
+                marca.value = marcaData.value;
+                marca.querySelector(`option[value="${marcaData.id || 0}"]`).selected = true;
+
+            })
+        duckFetch('categories', producto.categoryId, 'GET', null)
+            .then(categoryData => {
+                categorySelect.value = categoryData.value;
+                categorySelect.querySelector(`option[value="${categoryData.id || 0}"]`).selected = true;
+            });
+
+        duckFetch('tipos', producto.tipoId, 'GET', null)
+            .then(tipoData => {
+                tipoSelect.value = tipoData.value;
+
+                tipoSelect.querySelector(`option[value="${tipoData.id || 0}"]`).selected = true;
+            });
+
+        casillas[5].value = producto.unitValue || 900000
+        let proveedor = casillas[6];
+
+        duckFetch('providers', producto.providerId, 'GET', null).then(proveedorData => {
+            proveedor.value = proveedorData.value;
+            proveedor.querySelector(`option[value="${proveedorData.id || 0}"]`).selected = true;
+        })
+        casillas[7].value = producto.Serial || "No especificado"
+        casillas[8].value = producto.PEmpresa || "No especificado"
+        let estado = casillas[9] || "No especificado"
+
+        duckFetch('estados', producto.estadoId, 'GET', null).then(estadoData => {
+            estado.value = estadoData.value;
+            estado.querySelector(`option[value="${estadoData.id || 0}"]`).selected = true;
+        })
+
+    }
 }
 
 customElements.define('editar-activo', editarActivo);

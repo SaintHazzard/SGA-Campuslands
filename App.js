@@ -54,7 +54,7 @@ class device {
 
 
 
-// let data = await duckFetch('products', 1, 'GET', null);
+// let data = await duckFetch('products', null, 'GET', null);
 // let dataObject = {};
 
 
@@ -78,16 +78,14 @@ function toggleCollapse(event) {
 
   if (navItem) {
     const optionContent = navItem.nextElementSibling;
-
     if (optionContent && optionContent.classList.contains('option-content')) {
       optionContent.style.display = (optionContent.style.display === 'block' || optionContent.style.display === '') ? 'none' : 'block';
     }
   }
 }
 
-// let arrayProveedores = [...new Set(data.map(item => item.Proveedor).filter(proveedor => proveedor !== undefined))];
-// let arrayUbicaciones = [...new Set(data.map(item => item.Ubicacion).filter(Ubicacion => Ubicacion !== undefined))];
-// console.log(arrayUbicaciones);
+
+
 
 
 

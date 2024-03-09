@@ -1,6 +1,5 @@
 import { duckFetch } from "../../Api/duckFetch.js";
-
-export class agregarActivo extends HTMLElement {
+export default class agregarActivo extends HTMLElement {
   constructor() {
     super();
     this.render();
@@ -63,7 +62,6 @@ export class agregarActivo extends HTMLElement {
                   <label for="validationCustom04" class="form-label">Proveedor</label>
                   <select class="form-select" id="validationCustom08" required>
                     <option selected disabled value="">Seleccione...</option>
-                  
                   </select>
                   <div class="invalid-feedback">
                     Seleccione un proveedor.
@@ -98,6 +96,39 @@ export class agregarActivo extends HTMLElement {
               </form>
         </div>
         `
+    this.querySelector('#addAsset').addEventListener('click', async () => {
+      const form = this.querySelector('form');
+      if (form.checkValidity()) {
+        const data = {
+          "CodigoTransaccion": form[0].value,
+          "Formulario": form[1].value,
+          "marcaId": form[2].value,
+          "categoryId": form[3].value,
+          "tipoId": form[4].value,
+          "unitValue": form[5].value,
+          "providerId": form[6].value,
+          "Serial": form[7].value,
+          "PEmpresa": form[8].value,
+          "estadoId": form[9].value
+        }
+        try {
+          let dataId = await duckFetch('products', null, 'GET', null);
+          let newId = Math.max(...dataId.map(product => product.id)) + 1;
+          const response = await duckFetch('products', newId, 'POST', data);
+          console.log(response);
+
+          if (response) {
+            Swal.fire({
+              title: "Active added!",
+              text: "Brrrrrrrrrrrrrrrrrrrrrr",
+              icon: "success"
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    });
   }
   setupValidation() {
     const forms = this.querySelectorAll('.needs-validation');
@@ -107,7 +138,6 @@ export class agregarActivo extends HTMLElement {
           event.preventDefault();
           event.stopPropagation();
         }
-
         form.classList.add('was-validated');
       });
     });
@@ -119,24 +149,24 @@ export class agregarActivo extends HTMLElement {
   addOptions() {
     const selectElements = this.querySelectorAll('.form-select')
     duckFetch('marcas', null, 'GET', null).then(data => {
-      const marcas = data.map(marca => marca.nombre);
-      selectElements[0].innerHTML += marcas.map(marca => `<option>${marca}</option>`).join('');
+      const marcas = data.map(marca => marca);
+      selectElements[0].innerHTML += marcas.map(marca => `<option value="${marca.id}">${marca.nombre}</option>`).join('');
     });
     duckFetch('categories', null, 'GET', null).then(data => {
-      const categorias = data.map(categoria => categoria.nombre);
-      selectElements[1].innerHTML += categorias.map(categoria => `<option>${categoria}</option>`).join('');
+      const categorias = data.map(categoria => categoria);
+      selectElements[1].innerHTML += categorias.map(categoria => `<option value="${categoria.id}">${categoria.nombre}</option>`).join('');
     });
     duckFetch('tipos', null, 'GET', null).then(data => {
-      const tipos = data.map(tipo => tipo.nombre);
-      selectElements[2].innerHTML += tipos.map(tipo => `<option>${tipo}</option>`).join('');
+      const tipos = data.map(tipo => tipo);
+      selectElements[2].innerHTML += tipos.map(tipo => `<option value="${tipo.id}">${tipo.nombre}</option>`).join('');
     });
     duckFetch('providers', null, 'GET', null).then(data => {
-      const proveedores = data.map(proveedor => proveedor.nombre);
-      selectElements[3].innerHTML += proveedores.map(proveedor => `<option>${proveedor}</option>`).join('');
+      const proveedores = data.map(proveedor => proveedor);
+      selectElements[3].innerHTML += proveedores.map(pro => `<option value="${pro.id}">${pro.nombre}</option>`).join('');
     });
     duckFetch('estados', null, 'GET', null).then(data => {
-      const estados = data.map(estado => estado.nombre);
-      selectElements[4].innerHTML += estados.map(estado => `<option>${estado}</option>`).join('');
+      const estados = data.map(estado => estado);
+      selectElements[4].innerHTML += estados.map(est => `<option value="${est.id}">${est.nombre}</option>`).join('');
     });
   }
 }
