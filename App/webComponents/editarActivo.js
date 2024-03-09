@@ -1,7 +1,6 @@
 import '../../Api/duckFetch.js';
 import { duckFetch } from '../../Api/duckFetch.js';
 export default class editarActivo extends HTMLElement {
-    searchButton;
     constructor() {
         super();
         this.render();
@@ -11,7 +10,7 @@ export default class editarActivo extends HTMLElement {
         this.getProduct();
     }
 
-    render() {
+    async render() {
         this.innerHTML = /* html */ `
       <p class = "mx-5"><strong>Editar Activo</strong></p>
       <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
@@ -62,6 +61,12 @@ export default class editarActivo extends HTMLElement {
       </script>
       `;
         this.searchButton = this.querySelector('#search-button');
+
+        this.submitButton = this.querySelector("#submit-dialog")
+        this.searchBox = this.querySelector('.searchbox [type="reset"]')
+        this.closeButton = this.querySelector('#close-button')
+        this.suggestions = document.getElementById("suggestions");
+        this.data = await duckFetch('products', null, 'GET', null);
     }
 
     async dialogo() {
@@ -73,35 +78,51 @@ export default class editarActivo extends HTMLElement {
             showDialog();
         });
 
-        document.getElementById('submit-dialog').addEventListener('click', function () {
+        this.submitButton.addEventListener('click', async () => {
+            let input = document.getElementById('autocomplete');
+            let producto = await this.getProduct(input.dataset.productId);
+            const form = this.querySelector('form.row');
 
-            Swal.fire({
-                title: "Active modified!",
-                text: "Brrrrrrrrrrrrrrrrrrrrrr",
-                icon: "success"
-            });
+            if (form.checkValidity()) {
+                const data = {
+                    "CodigoTransaccion": form[0].value,
+                    "Formulario": form[1].value,
+                    "marcaId": form[2].value,
+                    "categoryId": form[3].value,
+                    "tipoId": form[4].value,
+                    "unitValue": form[5].value,
+                    "providerId": form[6].value,
+                    "Serial": form[7].value,
+                    "PEmpresa": form[8].value,
+                    "estadoId": form[9].value
+                }
+                const mixData = { ...producto, ...data }
+
+                await duckFetch('products', producto.id, 'PUT', mixData);
+                Swal.fire({
+                    title: "Active modified!",
+                    text: "Brrrrrrrrrrrrrrrrrrrrrr",
+                    icon: "success"
+                });
+            }
+
+
         });
 
         function hideDialog() {
             document.getElementById('dialog').style.display = 'none';
         }
 
-        document.querySelector('.searchbox [type="reset"]').addEventListener('click', function () {
-            hideDialog();
-        });
-
-        document.getElementById('close-button').addEventListener('click', function () {
+        this.closeButton.addEventListener('click', function () {
             document.getElementById('dialog').style.display = 'none';
         });
 
     }
     async showAll() {
-        const suggestions = document.getElementById("suggestions");
-        const data = await duckFetch('products', null, 'GET', null);
-        const input = document.getElementById("autocomplete")
+        const input = this.querySelector("#autocomplete")
         input.addEventListener("click", () => {
-            suggestions.innerHTML = "";
-            data.forEach((item) => {
+            this.suggestions.innerHTML = "";
+            this.data.forEach((item) => {
                 const li = document.createElement("li");
                 li.className = "list-group-item";
                 li.textContent = `${item.id} - ${item.DescripcionItem}`
@@ -117,15 +138,13 @@ export default class editarActivo extends HTMLElement {
     }
 
     async filterSuggestions() {
-        const suggestions = document.getElementById("suggestions");
-        const data = await duckFetch('products', null, 'GET', null);
         const input = document.getElementById("autocomplete")
         input.addEventListener('input', () => {
             if (input.value.length === 0) {
                 return;
             }
-            suggestions.innerHTML = "";
-            data.forEach(item => {
+            this.suggestions.innerHTML = "";
+            this.data.forEach(item => {
                 let nombreItem = item.DescripcionItem;
                 let serial = item.Serial || nombreItem;
 

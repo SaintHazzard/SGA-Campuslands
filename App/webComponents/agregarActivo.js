@@ -1,5 +1,5 @@
 import { duckFetch } from "../../Api/duckFetch.js";
-export class agregarActivo extends HTMLElement {
+export default class agregarActivo extends HTMLElement {
   constructor() {
     super();
     this.render();
@@ -115,6 +115,8 @@ export class agregarActivo extends HTMLElement {
           let dataId = await duckFetch('products', null, 'GET', null);
           let newId = Math.max(...dataId.map(product => product.id)) + 1;
           const response = await duckFetch('products', newId, 'POST', data);
+          console.log(response);
+
           if (response) {
             Swal.fire({
               title: "Active added!",
