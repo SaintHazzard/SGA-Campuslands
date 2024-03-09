@@ -1,14 +1,11 @@
 import '../../Api/duckFetch.js';
+import editarActivo from './editarActivo.js';
 import { duckFetch } from '../../Api/duckFetch.js';
 export class buscarActivo extends HTMLElement {
     searchButton;
     constructor() {
         super();
-        this.render();
-        this.dialogo();
-        this.showAll();
-        this.filterSuggestions();
-        this.getProduct()
+        this.classEditar = new editarActivo();
     }
 
     render() {
@@ -40,7 +37,7 @@ export class buscarActivo extends HTMLElement {
               </button>
           </div>
       </form>
-  
+
       <div id="dialog" class="modal">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -49,7 +46,7 @@ export class buscarActivo extends HTMLElement {
                         <button type="button" class="btn-close" aria-label="Close" id="close-button"></button>
                     </div>
                     <div class="modal-body">
-                        Contenido del diálogo
+                        <agregar-activo></agregar-activo>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submit-dialog">Guardar</button>
@@ -77,7 +74,13 @@ export class buscarActivo extends HTMLElement {
         });
 
         document.getElementById('submit-dialog').addEventListener('click', function () {
-            alert('Enviar diálogo');
+            if (response) {
+                Swal.fire({
+                    title: "Active added!",
+                    text: "Brrrrrrrrrrrrrrrrrrrrrr",
+                    icon: "success"
+                });
+            }
         });
 
         function hideDialog() {
@@ -93,72 +96,13 @@ export class buscarActivo extends HTMLElement {
         });
 
     }
-    async showAll() {
-        const suggestions = document.getElementById("suggestions");
-        const data = await duckFetch('products', null, 'GET', null);
-        const input = document.getElementById("autocomplete")
-        input.addEventListener("click", () => {
-            suggestions.innerHTML = "";
-            data.forEach((item) => {
-                const li = document.createElement("li");
-                li.className = "list-group-item";
-                li.textContent = `${item.id} - ${item.DescripcionItem}`
-                li.addEventListener("click", () => {
-                    input.value = item.DescripcionItem; // Muestra la descripción en el input
-                    input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
-                    suggestions.innerHTML = "";
-                    this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
-                        console.log(producto);
-                    });
-                });
-                suggestions.appendChild(li);
-            });
-        });
+
+    connectedCallback() {
+        this.render()
+        this.classEditar.showAll();
+        this.classEditar.filterSuggestions();
     }
 
-    async filterSuggestions() {
-        const suggestions = document.getElementById("suggestions");
-        const data = await duckFetch('products', null, 'GET', null);
-        const input = document.getElementById("autocomplete")
-        input.addEventListener('input', () => {
-            console.log('entra1');
-            if (input.value.length === 0) {
-                return;
-            }
-            suggestions.innerHTML = "";
-            data.forEach(item => {
-                // console.log(input.value.includes(item.DescripcionItem));
-
-                let nombreItem = item.DescripcionItem;
-                // Verifica si la descripción del item existe
-                if (nombreItem) {
-                    // Convierte el valor del input y la descripción del item a minúsculas
-                    let wordInput = input.value.toLowerCase();
-                    if (nombreItem.toLowerCase().includes(wordInput)) {
-                        console.log('entra2');
-
-                        const li = document.createElement("li");
-                        li.className = "list-group-item";
-                        li.textContent = `${item.id} - ${item.DescripcionItem}`
-                        li.addEventListener("click", () => {
-                            input.value = item.DescripcionItem; // Muestra la descripción en el input
-                            input.dataset.productId = item.id; // Almacena el ID del producto en un data attribute
-                            suggestions.innerHTML = "";
-                            this.getProduct(input.dataset.productId).then(producto => { // Usa el ID del producto desde el data attribute
-                                console.log(producto);
-                            });
-                        });
-                        suggestions.appendChild(li);
-                    }
-                }
-
-            });
-        })
-    }
-    async getProduct(pro) {
-        let productoGet = await duckFetch('products', pro, 'GET', null);
-        return productoGet
-    }
 
 }
 

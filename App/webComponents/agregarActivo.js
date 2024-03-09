@@ -112,11 +112,13 @@ export class agregarActivo extends HTMLElement {
           "estadoId": form[9].value
         }
         try {
-          const response = await duckFetch('products', null, 'POST', data);
+          let dataId = await duckFetch('products', null, 'GET', null);
+          let newId = Math.max(...dataId.map(product => product.id)) + 1;
+          const response = await duckFetch('products', newId, 'POST', data);
           if (response) {
             Swal.fire({
-              title: "Good job!",
-              text: "You clicked the button!",
+              title: "Active added!",
+              text: "Brrrrrrrrrrrrrrrrrrrrrr",
               icon: "success"
             });
           }
@@ -145,24 +147,24 @@ export class agregarActivo extends HTMLElement {
   addOptions() {
     const selectElements = this.querySelectorAll('.form-select')
     duckFetch('marcas', null, 'GET', null).then(data => {
-      const marcas = data.map(marca => marca.nombre);
-      selectElements[0].innerHTML += marcas.map(marca => `<option value="${marca}">${marca}</option>`).join('');
+      const marcas = data.map(marca => marca);
+      selectElements[0].innerHTML += marcas.map(marca => `<option value="${marca.id}">${marca.nombre}</option>`).join('');
     });
     duckFetch('categories', null, 'GET', null).then(data => {
-      const categorias = data.map(categoria => categoria.nombre);
-      selectElements[1].innerHTML += categorias.map(categoria => `<option value="${categoria}">${categoria}</option>`).join('');
+      const categorias = data.map(categoria => categoria);
+      selectElements[1].innerHTML += categorias.map(categoria => `<option value="${categoria.id}">${categoria.nombre}</option>`).join('');
     });
     duckFetch('tipos', null, 'GET', null).then(data => {
-      const tipos = data.map(tipo => tipo.nombre);
-      selectElements[2].innerHTML += tipos.map(tipo => `<option value="${tipo}">${tipo}</option>`).join('');
+      const tipos = data.map(tipo => tipo);
+      selectElements[2].innerHTML += tipos.map(tipo => `<option value="${tipo.id}">${tipo.nombre}</option>`).join('');
     });
     duckFetch('providers', null, 'GET', null).then(data => {
-      const proveedores = data.map(proveedor => proveedor.nombre);
-      selectElements[3].innerHTML += proveedores.map(pro => `<option value="${pro}">${pro}</option>`).join('');
+      const proveedores = data.map(proveedor => proveedor);
+      selectElements[3].innerHTML += proveedores.map(pro => `<option value="${pro.id}">${pro.nombre}</option>`).join('');
     });
     duckFetch('estados', null, 'GET', null).then(data => {
-      const estados = data.map(estado => estado.nombre);
-      selectElements[4].innerHTML += estados.map(est => `<option value="${est}">${est}</option>`).join('');
+      const estados = data.map(estado => estado);
+      selectElements[4].innerHTML += estados.map(est => `<option value="${est.id}">${est.nombre}</option>`).join('');
     });
   }
 }

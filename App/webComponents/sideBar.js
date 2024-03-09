@@ -31,7 +31,30 @@ export class sideBar extends HTMLElement {
           </a>
         </li>
         <element-sidebar class="option-content" style="display: none;"></element-sidebar>
-        
+        <li class="nav-item" data-component="marcas">
+          <a href="#" class="nav-link text-white" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Estados
+          </a>
+        </li>
+        <element-sidebar class="option-content" style="display: none;"></element-sidebar>
+        <li class="nav-item" data-component="marcas">
+          <a href="#" class="nav-link text-white" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Tipo de Personas
+          </a>
+        </li>
+        <element-sidebar class="option-content" style="display: none;"></element-sidebar>
+        <li class="nav-item" data-component="marcas">
+          <a href="#" class="nav-link text-white" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Tipo de movimientos
+          </a>
+        </li>
+        <element-sidebar class="option-content" style="display: none;"></element-sidebar>
+        <li class="nav-item" data-component="marcas">
+          <a href="#" class="nav-link text-white" aria-current="page">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M4 22h12v-2H4V8H2v12c0 1.103.897 2 2 2z"></path><path d="M20 2H8c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h12c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-2 9h-3v3h-2v-3h-3V9h3V6h2v3h3v2z"></path></svg>Tipo de activos
+          </a>
+        </li>
+        <element-sidebar class="option-content" style="display: none;"></element-sidebar>
         
       </ul>
       
