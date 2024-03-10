@@ -6,7 +6,7 @@ export class sideBar extends HTMLElement {
   }
   render() {
     this.innerHTML = /* html */ `
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark overflow-y-scroll" style="width: 280px; height: 100vh;">
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark overflow-y-scroll overflow-x-hidden" style="width: 280px; height: 100vh;">
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <img src="./source/img/logoWhite.png" alt="Logo" width="240">
         <span class="fs-4"></span>
