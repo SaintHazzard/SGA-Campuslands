@@ -167,7 +167,7 @@ export class editarPersona extends HTMLElement {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch('personas', selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.identificationId;
+        this.querySelector('#validationCustom02').value = data.identification;
         this.querySelector('#validationCustom03').value = data.nombre;
         this.querySelector('#validationCustom04').value = data.email;
         this.querySelector('#validationCustom05').value = data.tipodepersona;
@@ -257,7 +257,7 @@ export class buscarPersona extends HTMLElement {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch('personas', selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.identificationId;
+        this.querySelector('#validationCustom02').value = data.identification;
         this.querySelector('#validationCustom03').value = data.nombre;
         this.querySelector('#validationCustom04').value = data.email;
         this.querySelector('#validationCustom05').value = data.tipodepersona;
