@@ -1,6 +1,6 @@
 li:hover {
   background-color: cornflowerblue;
-  border-radius: 1rem;
+  border-radius: .4rem;
   transform: scale(1.05);
 }
 
