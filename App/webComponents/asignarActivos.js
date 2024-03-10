@@ -1,11 +1,11 @@
 export class asignarActivo extends HTMLElement {
-    constructor() {
-      super();
-      this.render();
-    }
-  
-    render() {
-      this.innerHTML = /* html */ `
+  constructor() {
+    super();
+    this.render();
+  }
+
+  render() {
+    this.innerHTML = /* html */ `
       <buscar-activo></buscar-activo>
       <div class="container mt-3">
         <h2>Asignaciones Creadas</h2>
@@ -27,8 +27,8 @@ export class asignarActivo extends HTMLElement {
     
 
       `;
-    }
   }
-  
-  
-  customElements.define('asignar-activo', asignarActivo)
+}
+
+
+customElements.define('asignaractivos-asignacione', asignarActivo)

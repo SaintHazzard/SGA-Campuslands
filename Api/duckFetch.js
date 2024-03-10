@@ -54,6 +54,7 @@ async function editSomething(endpoint, id) {
     }
   });
 }
+
 async function addSomething(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
   const opciones = casillas.length === 1 ? ['nombre'] : casillas.length === 2 ? ['nombre', 'email'] : ['identification', 'nombre', 'email', 'tipodepersona'];
@@ -76,8 +77,6 @@ async function addSomething(endPoint) {
   });
 }
 
-
-
 async function fillOptions(endpoint, select) {
   const data = await duckFetch(endpoint, null, 'GET', null);
   data.forEach(element => {
@@ -88,4 +87,27 @@ async function fillOptions(endpoint, select) {
   });
 }
 
-export { duckFetch, addSomething, editSomething, fillOptions }
+
+function deleteAnything(endPoint, selectId) {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      duckFetch(endPoint, selectId.value, 'DELETE', null);
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your assets has been deleted.",
+        icon: "success"
+      });
+      this.render();
+    }
+  });
+}
+
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything }

@@ -3,7 +3,7 @@ jqueryScript.src = 'https://code.jquery.com/jquery-3.5.1.min.js';
 document.head.appendChild(jqueryScript);
 
 export class crearAsignacion extends HTMLElement {
-    constructor(){
+    constructor() {
         super();
         this.render();
     }
@@ -35,20 +35,20 @@ export class crearAsignacion extends HTMLElement {
             </form>
         </div>
         `
-        
+
     }
     setupValidation() {
         const forms = this.querySelectorAll('.needs-validation');
         forms.forEach(form => {
-          form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          });
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
         });
-      }
+    }
 }
 
-customElements.define('crear-asignacion', crearAsignacion)
+customElements.define('crearasignacion-asignacione', crearAsignacion)
