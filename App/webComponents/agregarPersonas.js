@@ -170,6 +170,7 @@ export class editarPersona extends HTMLElement {
         this.querySelector('#validationCustom02').value = data.identificationId;
         this.querySelector('#validationCustom03').value = data.nombre;
         this.querySelector('#validationCustom04').value = data.email;
+        this.querySelector('#validationCustom05').value = data.tipodepersona;
       }
     });
     this.querySelector('#addSomething').addEventListener('click', () => {
@@ -180,3 +181,97 @@ export class editarPersona extends HTMLElement {
 }
 
 customElements.define('editar-persona', editarPersona)
+
+export class buscarPersona extends HTMLElement {
+  constructor() {
+    super();
+    this.render();
+  }
+
+  render() {
+    this.innerHTML = /* html */ `
+      <style>
+        /* Estilos aquí si es necesario */
+      </style>
+      <p class="mx-5"><strong>Buscar Persona</strong></p>
+      <div class="m-5" id="formAdd">
+        <form class="row g-3 needs-validation" novalidate>
+        <div class="col-md-3">
+                    <label for="validationCustom04" class="form-label">Buscar Persona</label>
+                    <select class="form-select" id="validationCustom01" required>
+                      <option selected disabled value="">Seleccione...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Seleccione una persona.
+                    </div>
+                </div>
+          <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Nro Documento</label>
+            <input type="text" class="form-control" id="validationCustom02" value="" required>
+            <div class="valid-feedback">
+              Correcto!
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="validationCustom03" value="" required>
+            <div class="valid-feedback">
+              Correcto!
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label for="validationCustom02" class="form-label">Email</label>
+            <input type="text" class="form-control" id="validationCustom04" value="" required>
+            <div class="valid-feedback">
+              Correcto!
+            </div>
+          </div>
+          <div class="col-md-3">
+                    <label for="validationCustom04" class="form-label">Tipo</label>
+                    <select class="form-select" id="validationCustom05" required>
+                      <option selected disabled value="">Seleccione...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Seleccione una persona.
+                    </div>
+                </div>
+          <div class="col-12">
+                    <button class="btn btn-dark" type="submit" id="addSomething">Guardar</button>
+          </div>
+        </form>
+      </div>
+    `;
+    this.chargeData()
+  }
+
+  async chargeData() {
+    let selectId = this.querySelector('#validationCustom01')
+    let selectTipo = this.querySelector('#validationCustom05')
+
+    fillOptions('personas', selectId);
+    fillOptions('tipodepersonas', selectTipo);
+
+
+
+    selectId.addEventListener('change', async () => {
+      const selectedValue = selectId.value;
+      if (selectedValue) {
+        const data = await duckFetch('personas', selectedValue, 'GET', null);
+        this.querySelector('#validationCustom02').value = data.identificationId;
+        this.querySelector('#validationCustom03').value = data.nombre;
+        this.querySelector('#validationCustom04').value = data.email;
+        this.querySelector('#validationCustom05').value = data.tipodepersona;
+        let casillas = this.querySelectorAll('[id*="validationCustom"]');
+        for (let i = 1; i < casillas.length; i++) {
+          casillas[i].disabled = true;
+        }
+      }
+    });
+    this.querySelector('#addSomething').addEventListener('click', () => {
+      editSomething.call(this, 'personas', selectId.value)
+      this.render();
+    });
+  }
+}
+
+customElements.define('buscar-persona', buscarPersona)

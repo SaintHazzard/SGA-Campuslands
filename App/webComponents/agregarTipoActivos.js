@@ -68,16 +68,16 @@ export class editarTipoActivo extends HTMLElement {
       <style>
         /* Estilos aquí si es necesario */
       </style>
-      <p class="mx-5"><strong>Editar Tipo movimiento</strong></p>
+      <p class="mx-5"><strong>Editar Tipo activo</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
         <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">Movimiento</label>
+                    <label for="validationCustom04" class="form-label">Tipo activo</label>
                     <select class="form-select" id="validationCustom01" required>
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Seleccione un Movimiento.
+                      Seleccione un tipo.
                     </div>
                 </div>
           <div class="col-md-4">

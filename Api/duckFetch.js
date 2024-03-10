@@ -3,56 +3,17 @@ import { autoIncrementalId } from "./autoIncremental.js";
 const head = new Headers({ "Content-type": "application/json" })
 const URL_API = "http://localhost:3000/";
 
-/**
- * 
- * @param {String} endpoint 
- * @param {Number} id 
- * @param {String} request 
- * @param {Object} data 
- * @returns {null}
- */
 async function duckFetch(endpoint, id, request, data) {
-  try {
-    switch (request) {
-      case 'GET':
-        if (id) {
-          return await HTTPrequest(`${URL_API}${endpoint}/${id}`, 'GET');
-        }
-        return await HTTPrequest(`${URL_API}${endpoint}`, 'GET');
-
-      case 'POST':
-        return await HTTPrequest(`${URL_API}${endpoint}`, 'POST', data);
-
-      case 'DELETE':
-        return await HTTPrequest(`${URL_API}${endpoint}/${id}`, 'DELETE');
-
-      case 'PUT':
-        return await HTTPrequest(`${URL_API}${endpoint}/${id}`, 'PUT', data);
-
-      default:
-        throw new Error(`Invalid request method: ${request}`);
-    }
-  } catch (error) {
-    throw error;
-  }
+  const url = id ? `${URL_API}${endpoint}/${id}` : `${URL_API}${endpoint}`;
+  return await HTTPrequest(url, request, data);
 }
 
-/**
- * 
- * @param {String} url 
- * @param {String} method 
- * @param {Object} data 
- * @returns {Promise<Object>}
- */
 async function HTTPrequest(url, method, data = null) {
   const options = {
     method,
     headers: head,
+    body: data ? JSON.stringify(data) : null
   };
-
-  if (data) {
-    options.body = JSON.stringify(data);
-  }
 
   const response = await fetch(url, options);
 
@@ -65,31 +26,20 @@ async function HTTPrequest(url, method, data = null) {
   }
 }
 
+function fillData(casillas, opciones) {
+  const data = {};
+  casillas.forEach((element, index) => {
+    element.setAttribute('data-set', opciones[index]);
+    data[opciones[index]] = element.value;
+  });
+  return data;
+}
 
-/**
- * @param {Array} casillas
- */
-async function addSomething(endpoint) {
-  function fillData(casillas) {
-    casillas.forEach((element, index) => {
-      element.setAttribute('data-set', opciones[index]);
-      data[opciones[index]] = element.value;
-    });
-  }
-  let data = {}
-  let opciones = ['identificationId', 'nombre', 'email', 'tipodepersona'];
-  let casillas = this.querySelectorAll('[id*="validationCustom"]');
-  if (casillas.length === 1) {
-    opciones = ['nombre'];
-    fillData(casillas)
-  } else if (casillas.length === 4) {
-    fillData(casillas)
-  } else if (casillas.length === 2) {
-    opciones = ['nombre', 'email'];
-    fillData(casillas)
-
-  }
-  let id = await autoIncrementalId(endpoint);
+async function addSomething(endPoint) {
+  const casillas = this.querySelectorAll('[id*="validationCustom"]');
+  const opciones = casillas.length === 1 ? ['nombre'] : casillas.length === 2 ? ['nombre', 'email'] : ['identificationId', 'nombre', 'email', 'tipodepersona'];
+  const data = fillData(casillas, opciones);
+  const id = await autoIncrementalId(endPoint);
   data.id = id;
   Swal.fire({
     title: "Do you want to save the changes?",
@@ -98,7 +48,6 @@ async function addSomething(endpoint) {
     confirmButtonText: "Save",
     denyButtonText: `Don't save`
   }).then((result) => {
-    /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
       duckFetch(endpoint, id, 'POST', data)
       Swal.fire("Saved!", "", "success");
@@ -109,22 +58,9 @@ async function addSomething(endpoint) {
 }
 
 async function editSomething(endpoint, id) {
-  function fillData(casillas) {
-    casillas.forEach((element, index) => {
-      element.setAttribute('data-set', opciones[index]);
-      data[opciones[index]] = element.value;
-    });
-  }
-  let data = {}
-  let opciones = [];
-  let casillas = this.querySelectorAll('[id*="validationCustom"]');
-  if (casillas.length === 2) {
-    opciones = ['id', 'nombre'];
-    fillData(casillas)
-  } else if (casillas.length === 5) {
-    opciones = ['identificationId', 'nombre', 'email', 'tipodepersona'];
-    fillData(casillas)
-  }
+  const casillas = this.querySelectorAll('[id*="validationCustom"]');
+  const opciones = casillas.length === 2 ? ['id', 'nombre'] : ['identificationId', 'nombre', 'email', 'tipodepersona'];
+  const data = fillData(casillas, opciones);
   data.id = id;
   Swal.fire({
     title: "Do you want to save the changes?",
@@ -133,7 +69,6 @@ async function editSomething(endpoint, id) {
     confirmButtonText: "Save",
     denyButtonText: `Don't save`
   }).then((result) => {
-    /* Read more about isConfirmed, isDenied below */
     if (result.isConfirmed) {
       duckFetch(endpoint, id, 'PUT', data)
       Swal.fire("Saved!", "", "success");
@@ -144,14 +79,13 @@ async function editSomething(endpoint, id) {
 }
 
 async function fillOptions(endpoint, select) {
-  let data = await duckFetch(endpoint, null, 'GET', null);
+  const data = await duckFetch(endpoint, null, 'GET', null);
   data.forEach(element => {
-    let option = document.createElement('option');
+    const option = document.createElement('option');
     option.value = element.id;
     option.textContent = element.nombre;
     select.appendChild(option);
   });
-
 }
 
 export { duckFetch, addSomething, editSomething, fillOptions }
