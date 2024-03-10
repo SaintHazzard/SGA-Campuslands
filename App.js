@@ -12,6 +12,7 @@ import './App/webComponents/agregarTipoPersona.js'
 import './App/webComponents/agregarTipoActivos.js'
 import './App/webComponents/agregarMarcas.js'
 
+import './App/webComponents/crearAsignacion.js'
 class device {
   constructor(id, CodigoTransaccion, Formulario, PEmpresa = null, FechaCompra, Nit, Proveedor, DescripcionItem, Serial, Categoria, Cantidad, Ubicacion = null) {
     this.id = id || null;
