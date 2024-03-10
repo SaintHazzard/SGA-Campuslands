@@ -37,9 +37,9 @@ li {
   transform: rotate(180deg);
 }
 
-.btn-custom {
-  background-color: cadetblue;
-  color: #ffffff;
+.list-group-item {
+  background-color: #264888;
+  color: white;
 }
 
 /* #dialog {

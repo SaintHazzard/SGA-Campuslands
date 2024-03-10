@@ -175,7 +175,7 @@ export default class editarActivo extends HTMLElement {
                     let wordInput = input.value.toLowerCase();
                     if (nombreItem.toLowerCase().includes(wordInput) || serial.toLowerCase().includes(wordInput)) {
                         const li = document.createElement("li");
-                        li.className = "list-group-item";
+                        li.className = "list-group-item fixed";
                         li.textContent = `${item.id} - ${item.DescripcionItem}`
                         li.addEventListener("click", () => {
                             input.value = item.DescripcionItem;
