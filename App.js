@@ -13,6 +13,7 @@ import './App/webComponents/agregarTipoActivos.js'
 import './App/webComponents/agregarMarcas.js'
 import './App/webComponents/crearAsignacion.js'
 import './App/webComponents/asignarActivos.js'
+import './App/webComponents/retornarAsignacion.js'
 
 
 class device {

@@ -7,9 +7,17 @@ export class asignarActivo extends HTMLElement {
   render() {
     this.innerHTML = /* html */ `
       <p class = "mx-5"><strong>Asignar Activo</strong></p>
-      <buscar-activo></buscar-activo>
         <div class="m-5" id="formAdd">
             <form class="row g-3 needs-validation" novalidate>
+                <div class="col-md-4">
+                    <label for="validationCustom01" class="form-label">Activos</label>
+                    <select class="form-select" id="validationCustom01" required>
+                      <option selected disabled value="">Seleccione...</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Seleccione un Activo.
+                    </div>
+                </div>
                 <div class="col-md-4">
                     <label for="validationCustom01" class="form-label">Asignacion</label>
                     <select class="form-select" id="validationCustom01" required>
@@ -34,7 +42,7 @@ export class asignarActivo extends HTMLElement {
                   </div>
                 </div>
                 <div class="col-12">
-                    <button class="btn btn-dark" type="submit" id="addAsset">Agregar Activo</button>
+                    <button class="btn btn-dark" type="submit" id="addAsset">Asignar Activo</button>
                 </div>
               </form>
         </div>
