@@ -1,5 +1,6 @@
-import { duckFetch, addSomething, editSomething, fillOptions } from "../../Api/duckFetch.js";
+import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
+import { BaseEliminar } from "./baseEliminar.js";
 
 
 
@@ -174,7 +175,7 @@ export class buscarTipoMovimiento extends HTMLElement {
 customElements.define('buscar-tipodemovimiento', buscarTipoMovimiento)
 
 
-export class eliminarTipoMovimiento extends HTMLElement {
+export class eliminarTipoMovimiento extends BaseEliminar {
   constructor() {
     super();
     this.render();
@@ -216,28 +217,11 @@ export class eliminarTipoMovimiento extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
+    setupValidation.call(this);
+    let selectId = this.querySelector('select')
+    super.deleteAnything(selectId, 'movActivos');
   }
 
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-    fillOptions('movActivos', selectId);
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('movActivos', selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      deleteAnything.call(this, 'movActivos', selectId.value)
-    });
-  }
 }
 
 customElements.define('eliminar-tipodemovimiento', eliminarTipoMovimiento)

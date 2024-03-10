@@ -89,10 +89,17 @@ export class sideBar extends HTMLElement {
     this.render()
   }
 
+
+
   callForm() {
+
     let options = this.querySelectorAll('.nav-item');
     options.forEach((index) => {
       index.addEventListener('click', () => {
+        options.forEach((index) => {
+          index.nextElementSibling.style.display = 'none';
+          index.querySelector('a').classList.remove('active')
+        })
         index.querySelector('a').classList.toggle('active')
       })
       let word = index.querySelector('a').textContent.replace(/\s+/g, '').slice(0, -1);

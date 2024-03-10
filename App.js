@@ -78,7 +78,14 @@ class device {
 //   await instanciarObjetos(dataObject);
 // })();
 
-
+function hideAllSidebars() {
+  const sidebars = document.querySelectorAll('element-sidebar');
+  sidebars.forEach(sidebar => {
+    sidebar.style.display = 'none';
+    
+    sidebar.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+  });
+}
 const navItems = document.querySelectorAll('[class="nav-item"]');
 
 navItems.forEach(li => { li.addEventListener('click', toggleCollapse) });
@@ -89,6 +96,7 @@ function toggleCollapse(event) {
   if (navItem) {
     const optionContent = navItem.nextElementSibling;
     if (optionContent && optionContent.classList.contains('option-content')) {
+      hideAllSidebars();
       optionContent.style.display = (optionContent.style.display === 'block' || optionContent.style.display === '') ? 'none' : 'block';
     }
   }
