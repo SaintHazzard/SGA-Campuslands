@@ -1,5 +1,7 @@
 import { duckFetch } from "../../Api/duckFetch.js";
 
+import { duckFetch } from "../../Api/duckFetch.js";
+
 export class mainContent extends HTMLElement {
   constructor() {
     super();
