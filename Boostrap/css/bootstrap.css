@@ -6,7 +6,7 @@
  */
 :root,
 [data-bs-theme="light"] {
-  --bs-blue: #0d6efd;
+  --bs-blue: #6495ed;
   --bs-indigo: #6610f2;
   --bs-purple: #6f42c1;
   --bs-pink: #d63384;
@@ -4042,7 +4042,7 @@ fieldset:disabled .btn {
 .nav-pills {
   --bs-nav-pills-border-radius: var(--bs-border-radius);
   --bs-nav-pills-link-active-color: #fff;
-  --bs-nav-pills-link-active-bg: #0d6efd;
+  --bs-nav-pills-link-active-bg: #6495ed;
 }
 .nav-pills .nav-link {
   border-radius: var(--bs-nav-pills-border-radius);

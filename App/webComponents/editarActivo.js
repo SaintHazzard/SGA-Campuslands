@@ -67,6 +67,28 @@ export default class editarActivo extends HTMLElement {
         this.closeButton = this.querySelector('#close-button')
         this.suggestions = document.getElementById("suggestions");
         this.data = await duckFetch('products', null, 'GET', null);
+        const modalContent = this.querySelector('#dialog .modal-content');
+
+        let offsetX, offsetY;
+
+        modalContent.addEventListener('mousedown', function (e) {
+            offsetX = e.clientX - modalContent.getBoundingClientRect().left * 0.1;
+            offsetY = e.clientY - modalContent.getBoundingClientRect().top * 0.1;
+
+            function moveModal(e) {
+                modalContent.style.left = e.clientX - offsetX + 'px';
+                modalContent.style.top = e.clientY - offsetY + 'px';
+            }
+
+            function stopMove() {
+                document.removeEventListener('mousemove', moveModal);
+                document.removeEventListener('mouseup', stopMove);
+            }
+
+            document.addEventListener('mousemove', moveModal);
+            document.addEventListener('mouseup', stopMove);
+        });
+
     }
 
     async dialogo() {
@@ -94,7 +116,8 @@ export default class editarActivo extends HTMLElement {
                     "providerId": form[6].value,
                     "Serial": form[7].value,
                     "PEmpresa": form[8].value,
-                    "estadoId": form[9].value
+                    "estadoId": form[9].value,
+                    "DescripcionItem": form[10].value
                 }
                 const mixData = { ...producto, ...data }
 
@@ -234,6 +257,7 @@ export default class editarActivo extends HTMLElement {
             estado.value = estadoData.value;
             estado.querySelector(`option[value="${estadoData.id || 0}"]`).selected = true;
         })
+        casillas[10].value = producto.DescripcionItem || "No especificado"
 
     }
 }

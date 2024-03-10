@@ -228,7 +228,7 @@ li {
 
 #suggestions {
   height: 20rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   width: auto;
   overflow-y: auto;
   overflow-x: hidden;
@@ -290,7 +290,7 @@ main-content {
   display: flex;
   margin: auto;
   height: 80vh;
-  overflow-y: scroll ;
+  overflow-y: scroll;
 }
 .cPrincipal {
   width: 100%;
@@ -299,4 +299,7 @@ main-content {
   display: flex;
   flex-direction: column;
   margin: auto;
+}
+.modal-header {
+  cursor: move;
 }
