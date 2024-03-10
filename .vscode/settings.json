@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "correccion titulo wc agregar-activo"
+        "correccion titulo wc agregar-activo",
+        "Web Componnets"
     ]
 }

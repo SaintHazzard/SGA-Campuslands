@@ -7,6 +7,9 @@ import './App/webComponents/buscarActivo.js'
 import './App/webComponents/eliminarActivo.js'
 import './App/webComponents/agregarPersonas.js'
 import './App/webComponents/agregarEstados.js'
+import './App/webComponents/agregarTipoMovimiento.js'
+import './App/webComponents/agregarTipoPersona.js'
+import './App/webComponents/agregarTipoActivos.js'
 
 class device {
   constructor(id, CodigoTransaccion, Formulario, PEmpresa = null, FechaCompra, Nit, Proveedor, DescripcionItem, Serial, Categoria, Cantidad, Ubicacion = null) {
