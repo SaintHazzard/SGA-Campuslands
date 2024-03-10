@@ -1,6 +1,5 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
-import { autoIncrementalId } from "../../Api/autoIncremental.js";
-
+import { BaseEliminar } from "./baseEliminar.js";
 
 
 export default class AgregarEstado extends HTMLElement {
@@ -173,7 +172,7 @@ export class buscarEstado extends HTMLElement {
 
 customElements.define('buscar-estado', buscarEstado)
 
-export class eliminarEstado extends HTMLElement {
+export class eliminarEstado extends BaseEliminar {
   constructor() {
     super();
     this.render();
@@ -215,27 +214,9 @@ export class eliminarEstado extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
-  }
-
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-    fillOptions('estados', selectId);
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('estados', selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      deleteAnything.call(this, 'estados', selectId.value)
-    });
+    setupValidation.call(this);
+    let selectId = this.querySelector('select')
+    super.deleteAnything(selectId, 'estados');
   }
 }
 

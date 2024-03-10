@@ -1,5 +1,5 @@
 import { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation } from "../../Api/duckFetch.js";
-import { autoIncrementalId } from "../../Api/autoIncremental.js";
+import { BaseEliminar } from "./baseEliminar.js";
 
 
 
@@ -7,6 +7,7 @@ export default class AgregarMarca extends HTMLElement {
   constructor() {
     super();
     this.render();
+
   }
 
   render() {
@@ -30,27 +31,18 @@ export default class AgregarMarca extends HTMLElement {
         </form>
       </div>
     `;
-
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      addSomething.call(this, 'marcas')
-    });
+    setupValidation.call(this);
+    this.verifyForm();
   }
 
-
-  setupValidation() {
-    const forms = this.querySelectorAll('.needs-validation');
-    forms.forEach(form => {
-      form.addEventListener('submit', event => {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add('was-validated');
-      });
+  verifyForm() {
+    this.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (event.target.checkValidity()) {
+        addSomething.call(this, 'marcas');
+      } else {
+      }
     });
-  }
-  connectedCallback() {
-    this.setupValidation()
   }
 }
 
@@ -58,10 +50,11 @@ customElements.define("agregar-marca", AgregarMarca);
 
 
 
-export class editarMarca extends HTMLElement {
+export class editarMarca extends AgregarMarca {
   constructor() {
     super();
     this.render();
+
   }
 
   render() {
@@ -78,7 +71,7 @@ export class editarMarca extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Seleccione un estado.
+                      Seleccione una marca.
                     </div>
                 </div>
           <div class="col-md-4">
@@ -87,6 +80,9 @@ export class editarMarca extends HTMLElement {
             <div class="valid-feedback">
               Correcto!
             </div>
+            <div class="invalid-feedback">
+                      Ingrese un nombre
+                    </div>
           </div>
           
           <div class="col-12">
@@ -95,12 +91,17 @@ export class editarMarca extends HTMLElement {
         </form>
       </div>
     `;
+    setupValidation.call(this);
     let selectId = this.querySelector('select')
     fillOptions('marcas', selectId);
-    setupValidation.call(this);
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'marcas', selectId.value)
-      this.render();
+    this.verifyForm(selectId);
+  }
+  verifyForm(selectId) {
+    this.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (event.target.checkValidity()) {
+        editSomething.call(this, 'marcas', selectId.value);
+      }
     });
   }
 }
@@ -109,7 +110,7 @@ customElements.define('editar-marca', editarMarca)
 
 
 
-export class buscarMarca extends HTMLElement {
+export class buscarMarca extends AgregarMarca {
   constructor() {
     super();
     this.render();
@@ -151,17 +152,13 @@ export class buscarMarca extends HTMLElement {
     `;
     this.chargeData()
   }
-
   async chargeData() {
     let selectId = this.querySelector('#validationCustom01')
-
     fillOptions('marcas', selectId);
-
     selectId.addEventListener('change', async () => {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch('marcas', selectedValue, 'GET', null);
-
         this.querySelector('#validationCustom02').value = data.id;
         this.querySelector('#validationCustom03').value = data.nombre;
         let casillas = this.querySelectorAll('[id*="validationCustom"]');
@@ -176,7 +173,7 @@ export class buscarMarca extends HTMLElement {
 customElements.define('buscar-marca', buscarMarca)
 
 
-export class eliminarMarcas extends HTMLElement {
+export class eliminarMarcas extends BaseEliminar {
   constructor() {
     super();
     this.render();
@@ -218,27 +215,9 @@ export class eliminarMarcas extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
-  }
-
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-    fillOptions('marcas', selectId);
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('marcas', selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      deleteAnything.call(this, 'marcas', selectId.value)
-    });
+    setupValidation.call(this);
+    let selectId = this.querySelector('select')
+    super.deleteAnything(selectId, 'marcas');
   }
 }
 

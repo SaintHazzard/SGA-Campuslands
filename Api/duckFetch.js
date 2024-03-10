@@ -43,7 +43,7 @@ function fillData(casillas, opciones) {
     data[opciones[0]] = casillas[1].value;
   }
   return data;
-}1
+} 1
 
 async function editSomething(endpoint, id) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
@@ -59,6 +59,7 @@ async function editSomething(endpoint, id) {
     if (result.isConfirmed) {
       duckFetch(endpoint, id, 'PUT', data)
       Swal.fire("Saved!", "", "success");
+      this.render();
     } else if (result.isDenied) {
       Swal.fire("Changes are not saved", "", "info");
     }
@@ -83,6 +84,7 @@ async function addSomething(endPoint) {
     if (result.isConfirmed) {
       duckFetch(endPoint, null, 'POST', data)
       Swal.fire("Saved!", "", "success");
+      this.render();
     } else if (result.isDenied) {
       Swal.fire("Changes are not saved", "", "info");
     }
@@ -101,6 +103,7 @@ async function fillOptions(endpoint, select) {
 
 
 function deleteAnything(endPoint, selectId) {
+  console.log(selectId);
   Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -111,12 +114,13 @@ function deleteAnything(endPoint, selectId) {
     confirmButtonText: "Yes, delete it!"
   }).then(async (result) => {
     if (result.isConfirmed) {
-      duckFetch(endPoint, selectId.value, 'DELETE', null);
+
       Swal.fire({
         title: "Deleted!",
         text: "Your assets has been deleted.",
         icon: "success"
       });
+      duckFetch(endPoint, selectId, 'DELETE');
       this.render();
     }
   });
@@ -128,7 +132,7 @@ function setupValidation() {
     form.addEventListener('submit', event => {
       if (!form.checkValidity()) {
         event.preventDefault();
-        event.stopPropagation();
+        event.stopImmediatePropagation()
       }
       form.classList.add('was-validated');
     });
