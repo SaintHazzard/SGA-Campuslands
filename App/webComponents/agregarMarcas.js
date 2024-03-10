@@ -3,7 +3,7 @@ import { autoIncrementalId } from "../../Api/autoIncremental.js";
 
 
 
-export default class AgregarTipoDePersona extends HTMLElement {
+export default class AgregarMarca extends HTMLElement {
   constructor() {
     super();
     this.render();
@@ -14,7 +14,7 @@ export default class AgregarTipoDePersona extends HTMLElement {
       <style>
         /* Estilos aquí si es necesario */
       </style>
-      <p class="mx-5"><strong>Agregar Tipo de persona</strong></p>
+      <p class="mx-5"><strong>Agregar Marca</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
           <div class="col-md-4">
@@ -32,7 +32,7 @@ export default class AgregarTipoDePersona extends HTMLElement {
     `;
 
     this.querySelector('#addSomething').addEventListener('click', () => {
-      addSomething.call(this, 'tipodepersonas')
+      addSomething.call(this, 'marcas')
     });
   }
 
@@ -54,10 +54,11 @@ export default class AgregarTipoDePersona extends HTMLElement {
   }
 }
 
-customElements.define("agregar-tipodepersona", AgregarTipoDePersona);
+customElements.define("agregar-marca", AgregarMarca);
 
 
-export class editarTipoPersona extends HTMLElement {
+
+export class editarMarca extends HTMLElement {
   constructor() {
     super();
     this.render();
@@ -68,11 +69,11 @@ export class editarTipoPersona extends HTMLElement {
       <style>
         /* Estilos aquí si es necesario */
       </style>
-      <p class="mx-5"><strong>Editar Tipo persona</strong></p>
+      <p class="mx-5"><strong>Editar Marca</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
         <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">Estado</label>
+                    <label for="validationCustom04" class="form-label">Marca</label>
                     <select class="form-select" id="validationCustom01" required>
                       <option selected disabled value="">Seleccione...</option>
                     </select>
@@ -89,18 +90,18 @@ export class editarTipoPersona extends HTMLElement {
           </div>
           
           <div class="col-12">
-                    <button class="btn btn-dark" type="submit" id="addSomething">Guardar</button>
+                    <button class="btn btn-dark" type="submit" id="addSomething">Agregar</button>
           </div>
         </form>
       </div>
     `;
     let selectId = this.querySelector('select')
-    fillOptions('tipodepersonas', selectId);
+    fillOptions('marcas', selectId);
     this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'tipodepersonas', selectId.value)
+      editSomething.call(this, 'marcas', selectId.value)
       this.render();
     });
   }
 }
 
-customElements.define('editar-tipodepersona', editarTipoPersona)
+customElements.define('editar-marca', editarMarca)

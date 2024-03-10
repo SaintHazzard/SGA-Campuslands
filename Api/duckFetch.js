@@ -106,8 +106,52 @@ async function addSomething(endpoint) {
       Swal.fire("Changes are not saved", "", "info");
     }
   });
+}
 
+async function editSomething(endpoint, id) {
+  function fillData(casillas) {
+    casillas.forEach((element, index) => {
+      element.setAttribute('data-set', opciones[index]);
+      data[opciones[index]] = element.value;
+    });
+  }
+  let data = {}
+  let opciones = [];
+  let casillas = this.querySelectorAll('[id*="validationCustom"]');
+  if (casillas.length === 2) {
+    opciones = ['id', 'nombre'];
+    fillData(casillas)
+  } else if (casillas.length === 5) {
+    opciones = ['identificationId', 'nombre', 'email', 'tipodepersona'];
+    fillData(casillas)
+  }
+  data.id = id;
+  Swal.fire({
+    title: "Do you want to save the changes?",
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Save",
+    denyButtonText: `Don't save`
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      duckFetch(endpoint, id, 'PUT', data)
+      Swal.fire("Saved!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
+  });
+}
+
+async function fillOptions(endpoint, select) {
+  let data = await duckFetch(endpoint, null, 'GET', null);
+  data.forEach(element => {
+    let option = document.createElement('option');
+    option.value = element.id;
+    option.textContent = element.nombre;
+    select.appendChild(option);
+  });
 
 }
 
-export { duckFetch, addSomething }
+export { duckFetch, addSomething, editSomething, fillOptions }
