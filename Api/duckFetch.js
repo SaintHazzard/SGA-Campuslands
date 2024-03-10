@@ -1,3 +1,5 @@
+import { autoIncrementalId } from "./autoIncremental.js";
+
 const head = new Headers({ "Content-type": "application/json" })
 const URL_API = "http://localhost:3000/";
 
@@ -63,4 +65,49 @@ async function HTTPrequest(url, method, data = null) {
   }
 }
 
-export { duckFetch }
+
+/**
+ * @param {Array} casillas
+ */
+async function addSomething(endpoint) {
+  function fillData(casillas) {
+    casillas.forEach((element, index) => {
+      element.setAttribute('data-set', opciones[index]);
+      data[opciones[index]] = element.value;
+    });
+  }
+  let data = {}
+  let opciones = ['identificationId', 'nombre', 'email', 'tipodepersona'];
+  let casillas = this.querySelectorAll('[id*="validationCustom"]');
+  if (casillas.length === 1) {
+    opciones = ['nombre'];
+    fillData(casillas)
+  } else if (casillas.length === 4) {
+    fillData(casillas)
+  } else if (casillas.length === 2) {
+    opciones = ['nombre', 'email'];
+    fillData(casillas)
+
+  }
+  let id = await autoIncrementalId(endpoint);
+  data.id = id;
+  Swal.fire({
+    title: "Do you want to save the changes?",
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Save",
+    denyButtonText: `Don't save`
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      duckFetch(endpoint, id, 'POST', data)
+      Swal.fire("Saved!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
+  });
+
+
+}
+
+export { duckFetch, addSomething }

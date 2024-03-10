@@ -121,10 +121,7 @@ export default class agregarActivo extends HTMLElement {
           "estadoId": form[9].value
         }
         try {
-
-          data.id = String(await autoIncrementalId());
-          console.log(data.id);
-
+          data.id = String(await autoIncrementalId('products'));
           const response = duckFetch('products', null, 'POST', data);
 
           if (response) {
