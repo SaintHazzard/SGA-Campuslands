@@ -168,10 +168,6 @@ export class buscarActivo extends HTMLElement {
         }
       }
     });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'typeAssets', selectId.value)
-      this.render();
-    });
   }
 }
 

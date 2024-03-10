@@ -27,17 +27,27 @@ async function HTTPrequest(url, method, data = null) {
 }
 
 function fillData(casillas, opciones) {
+  console.log(casillas, opciones);
+
   const data = {};
-  for (let index = 1; index < casillas.length; index++) {
-    casillas[index].setAttribute('data-set', opciones[index - 1]);
-    data[opciones[index - 1]] = casillas[index].value;
+  if (opciones.length == 4) {
+    for (let index = 1; index < casillas.length; index++) {
+      casillas[index].setAttribute('data-set', opciones[index - 1]);
+      data[opciones[index - 1]] = casillas[index].value;
+    }
+  } else if (casillas.length == 1) {
+    casillas[0].setAttribute('data-set', opciones[0]);
+    data[opciones[0]] = casillas[0].value;
+  } else if (casillas.length == 2) {
+    casillas[1].setAttribute('data-set', opciones[0]);
+    data[opciones[0]] = casillas[1].value;
   }
   return data;
-}
+}1
 
 async function editSomething(endpoint, id) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
-  const opciones = casillas.length === 2 ? ['id', 'nombre'] : ['identification', 'nombre', 'email', 'tipodepersona'];
+  const opciones = casillas.length === 2 ? ['nombre'] : ['identification', 'nombre', 'email', 'tipodepersona'];
   const data = fillData(casillas, opciones);
   Swal.fire({
     title: "Do you want to save the changes?",
@@ -59,8 +69,10 @@ async function addSomething(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
   const opciones = casillas.length === 1 ? ['nombre'] : casillas.length === 2 ? ['nombre', 'email'] : ['identification', 'nombre', 'email', 'tipodepersona'];
   const data = fillData(casillas, opciones);
+  console.log(data);
+
   const id = await autoIncrementalId(endPoint);
-  data.id = id;
+  data.id = id.toString();
   Swal.fire({
     title: "Do you want to save the changes?",
     showDenyButton: true,
@@ -69,7 +81,7 @@ async function addSomething(endPoint) {
     denyButtonText: `Don't save`
   }).then((result) => {
     if (result.isConfirmed) {
-      duckFetch(endpoint, id, 'POST', data)
+      duckFetch(endPoint, null, 'POST', data)
       Swal.fire("Saved!", "", "success");
     } else if (result.isDenied) {
       Swal.fire("Changes are not saved", "", "info");
@@ -110,4 +122,17 @@ function deleteAnything(endPoint, selectId) {
   });
 }
 
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything }
+function setupValidation() {
+  const forms = this.querySelectorAll('.needs-validation');
+  forms.forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated');
+    });
+  });
+}
+
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation }

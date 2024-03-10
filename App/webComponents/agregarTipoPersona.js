@@ -117,7 +117,7 @@ export class buscarTipoPersona extends HTMLElement {
       <style>
         /* Estilos aquí si es necesario */
       </style>
-      <p class="mx-5"><strong>Buscar Persona</strong></p>
+      <p class="mx-5"><strong>Buscar tipo de persona</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
         <div class="col-md-3">
@@ -167,10 +167,6 @@ export class buscarTipoPersona extends HTMLElement {
           casillas[i].disabled = true;
         }
       }
-    });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'tipodepersonas', selectId.value)
-      this.render();
     });
   }
 }

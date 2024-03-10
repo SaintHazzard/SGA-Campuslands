@@ -1,4 +1,4 @@
-import { duckFetch, addSomething, editSomething, fillOptions, deleteAnything } from "../../Api/duckFetch.js";
+import { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
 
 
@@ -97,6 +97,7 @@ export class editarMarca extends HTMLElement {
     `;
     let selectId = this.querySelector('select')
     fillOptions('marcas', selectId);
+    setupValidation.call(this);
     this.querySelector('#addSomething').addEventListener('click', () => {
       editSomething.call(this, 'marcas', selectId.value)
       this.render();
@@ -119,7 +120,7 @@ export class buscarMarca extends HTMLElement {
       <style>
         /* Estilos aquí si es necesario */
       </style>
-      <p class="mx-5"><strong>Buscar Persona</strong></p>
+      <p class="mx-5"><strong>Buscar Marca</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
         <div class="col-md-3">
@@ -160,7 +161,6 @@ export class buscarMarca extends HTMLElement {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch('marcas', selectedValue, 'GET', null);
-        console.log(data);
 
         this.querySelector('#validationCustom02').value = data.id;
         this.querySelector('#validationCustom03').value = data.nombre;
@@ -169,10 +169,6 @@ export class buscarMarca extends HTMLElement {
           casillas[i].disabled = true;
         }
       }
-    });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'marcas', selectId.value)
-      this.render();
     });
   }
 }
@@ -194,12 +190,12 @@ export class eliminarMarcas extends HTMLElement {
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
         <div class="col-md-3">
-                    <label for="validationCustom04" class="form-label">Buscar Persona</label>
+                    <label for="validationCustom04" class="form-label">Buscar Marca</label>
                     <select class="form-select" id="validationCustom01" required>
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Seleccione una persona.
+                      Seleccione una Marca.
                     </div>
                 </div>
           <div class="col-md-4">

@@ -1,4 +1,4 @@
-import { duckFetch, addSomething, editSomething, fillOptions } from "../../Api/duckFetch.js";
+import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
 
 
@@ -96,10 +96,12 @@ export class editarEstado extends HTMLElement {
     `;
     let selectId = this.querySelector('select')
     fillOptions('estados', selectId);
+    setupValidation.call(this);
     this.querySelector('#addSomething').addEventListener('click', () => {
       editSomething.call(this, 'estados', selectId.value)
       this.render();
     });
+
   }
 }
 
@@ -117,7 +119,7 @@ export class buscarEstado extends HTMLElement {
       <style>
         /* Estilos aquí si es necesario */
       </style>
-      <p class="mx-5"><strong>Buscar Persona</strong></p>
+      <p class="mx-5"><strong>Buscar Estado</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
         <div class="col-md-3">
@@ -126,7 +128,7 @@ export class buscarEstado extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Seleccione una persona.
+                      Seleccione una Estado.
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -151,15 +153,12 @@ export class buscarEstado extends HTMLElement {
 
   async chargeData() {
     let selectId = this.querySelector('#validationCustom01')
-
     fillOptions('estados', selectId);
-
     selectId.addEventListener('change', async () => {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch('estados', selectedValue, 'GET', null);
         console.log(data);
-
         this.querySelector('#validationCustom02').value = data.id;
         this.querySelector('#validationCustom03').value = data.nombre;
         let casillas = this.querySelectorAll('[id*="validationCustom"]');
@@ -168,10 +167,7 @@ export class buscarEstado extends HTMLElement {
         }
       }
     });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'estados', selectId.value)
-      this.render();
-    });
+
   }
 }
 
@@ -196,7 +192,7 @@ export class eliminarEstado extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Seleccione una persona.
+                      Seleccione una Estado.
                     </div>
                 </div>
           <div class="col-md-4">
