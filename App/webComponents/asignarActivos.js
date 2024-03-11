@@ -54,7 +54,18 @@ export class asignarActivo extends HTMLElement {
       let selectAsignacion = this.querySelector("#validationCustom02");
       fillOptionsAssignaments.call(this, "assignaments", selectAsignacion);
 
+      this.verifyForm();
     }
+    verifyForm() {
+        this.querySelector('form').addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (event.target.checkValidity()) {
+            addSomething.call(this, 'asignaractivos');
+          } else {
+          }
+        });
+    }
+    
     setupValidation() {
         const forms = this.querySelectorAll('.needs-validation');
         forms.forEach(form => {
@@ -66,7 +77,7 @@ export class asignarActivo extends HTMLElement {
             form.classList.add('was-validated');
           });
         });
-      }
+    }
   }
   
   

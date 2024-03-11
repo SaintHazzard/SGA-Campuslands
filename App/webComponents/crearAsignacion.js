@@ -38,7 +38,7 @@ export class crearAsignacion extends HTMLElement {
         </div>
         `
         let selectpersona = this.querySelector("#validationCustom01");
-        fill.call(this, "personas",selectpersona);
+        fillOptions.call(this, "personas",selectpersona);
         setupValidation.call(this);
         this.verifyForm();
     }
