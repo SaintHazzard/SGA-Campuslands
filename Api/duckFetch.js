@@ -81,7 +81,7 @@ async function addAssignement(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
   let opciones = ['productoId', 'asignamentId', 'fecha', 'comentario']
   const data = fillData(casillas, opciones);
-  data.id = String(await autoIncrementalId('products'));
+  data.id = String(await autoIncrementalId('asignaractivos'));
   let dataProduct = await duckFetch('products', data.productoId, "GET", null);
   Swal.fire({
     title: "Do you want to save the changes?",
