@@ -104,7 +104,6 @@ export default class editarActivo extends HTMLElement {
             let input = document.getElementById('autocomplete');
             let producto = await this.getProduct(input.dataset.productId);
             const form = this.querySelector('form.row');
-
             if (form.checkValidity()) {
                 const data = {
                     "CodigoTransaccion": form[0].value,
@@ -120,7 +119,6 @@ export default class editarActivo extends HTMLElement {
                     "DescripcionItem": form[10].value
                 }
                 const mixData = { ...producto, ...data }
-
                 await duckFetch('products', producto.id, 'PUT', mixData);
                 Swal.fire({
                     title: "Active modified!",
@@ -224,7 +222,6 @@ export default class editarActivo extends HTMLElement {
         let tipoSelect = casillas[4];
         duckFetch('marcas', producto.marcaId, 'GET', null)
             .then(marcaData => {
-
                 marca.value = marcaData.value;
                 marca.querySelector(`option[value="${marcaData.id || 0}"]`).selected = true;
 

@@ -2,6 +2,7 @@ import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } 
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
 import { BaseEliminar } from "./superClases/baseEliminar.js";
 import baseEditar from "./superClases/baseEditar.js";
+import baseBuscar from "./superClases/baseBuscar.js";
 
 
 export default class AgregarTipoMovimiento extends HTMLElement {
@@ -104,7 +105,7 @@ export class editarTipoMovimiento extends baseEditar {
 customElements.define('editar-tipodemovimiento', editarTipoMovimiento)
 
 
-export class buscarTipoMovimiento extends HTMLElement {
+export class buscarTipoMovimiento extends baseBuscar {
   constructor() {
     super();
     this.render();

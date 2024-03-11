@@ -1,4 +1,4 @@
-import { addSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
+import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation } from "../../Api/duckFetch.js";
 
 const jqueryScript = document.createElement('script');
 jqueryScript.src = 'https://code.jquery.com/jquery-3.5.1.min.js';
@@ -38,20 +38,20 @@ export class crearAsignacion extends HTMLElement {
         </div>
         `
         let selectpersona = this.querySelector("#validationCustom01");
-        fillOptions.call(this, "personas",selectpersona);
+        fillOptions.call(this, "personas", selectpersona);
         setupValidation.call(this);
         this.verifyForm();
     }
     verifyForm() {
         this.querySelector('form').addEventListener('submit', (event) => {
-          event.preventDefault();
-          if (event.target.checkValidity()) {
-            addSomething.call(this, 'assignaments');
-          } else {
-          }
+            event.preventDefault();
+            if (event.target.checkValidity()) {
+                addSomething.call(this, 'assignaments');
+            } else {
+            }
         });
     }
-    
+
 }
 
 customElements.define('crearasignacion-asignacione', crearAsignacion)

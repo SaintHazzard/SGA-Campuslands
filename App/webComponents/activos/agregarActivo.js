@@ -123,7 +123,6 @@ export default class agregarActivo extends HTMLElement {
         try {
           data.id = String(await autoIncrementalId('products'));
           const response = duckFetch('products', null, 'POST', data);
-
           if (response) {
             Swal.fire({
               title: "Active added!",
