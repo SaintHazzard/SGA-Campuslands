@@ -1,6 +1,6 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
-import { BaseEliminar } from "./baseEliminar.js";
-
+import baseBuscar from "./superClases/baseBuscar.js";
+import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
 export default class AgregarTipoActivos extends HTMLElement {
@@ -106,7 +106,7 @@ export class editarTipoActivo extends HTMLElement {
 customElements.define('editar-tipodeactivo', editarTipoActivo)
 
 
-export class buscarActivo extends HTMLElement {
+export class buscarActivo extends baseBuscar {
   constructor() {
     super();
     this.render();
@@ -146,29 +146,9 @@ export class buscarActivo extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
+    super.chargeData('tipos')
   }
 
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-
-    fillOptions('typeAssets', selectId);
-
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('typeAssets', selectedValue, 'GET', null);
-        console.log(data);
-
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
-  }
 }
 
 customElements.define('buscar-tipodeactivo', buscarActivo)
@@ -217,7 +197,7 @@ export class tipoActivos extends BaseEliminar {
     `;
     setupValidation.call(this);
     let selectId = this.querySelector('select')
-    super.deleteAnything(selectId, 'typeAssets');
+    super.deleteAnything(selectId, 'tipos');
   }
 }
 

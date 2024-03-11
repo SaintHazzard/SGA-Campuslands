@@ -1,4 +1,4 @@
-import '../../Api/duckFetch.js';
+import '../../../Api/duckFetch.js';
 import editarActivo from './editarActivo.js';
 // import { duckFetch } from '../../Api/duckFetch.js';
 export default class buscarActivo extends HTMLElement {

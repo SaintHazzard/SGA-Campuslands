@@ -1,4 +1,4 @@
-import { duckFetch, fillOptions, deleteAnything } from '../../Api/duckFetch.js';
+import { duckFetch, fillOptions, deleteAnything } from '../../../Api/duckFetch.js';
 
 export class BaseEliminar extends HTMLElement {
 

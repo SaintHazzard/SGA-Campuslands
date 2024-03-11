@@ -1,5 +1,5 @@
-import { duckFetch } from "../../Api/duckFetch.js";
-import { autoIncrementalId } from "../../Api/autoIncremental.js";
+import { duckFetch } from "../../../Api/duckFetch.js";
+import { autoIncrementalId } from "../../../Api/autoIncremental.js";
 export default class agregarActivo extends HTMLElement {
   constructor() {
     super();

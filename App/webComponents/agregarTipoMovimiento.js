@@ -1,7 +1,6 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
-import { BaseEliminar } from "./baseEliminar.js";
-
+import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
 export default class AgregarTipoMovimiento extends HTMLElement {
@@ -147,28 +146,7 @@ export class buscarTipoMovimiento extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
-  }
-
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-
-    fillOptions('movActivos', selectId);
-
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('movActivos', selectedValue, 'GET', null);
-        console.log(data);
-
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
+    super.chargeData('movActivos');
   }
 }
 

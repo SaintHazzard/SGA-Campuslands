@@ -1,5 +1,5 @@
-import '../../Api/duckFetch.js';
-import { duckFetch } from '../../Api/duckFetch.js';
+import '../../../Api/duckFetch.js';
+import { duckFetch } from '../../../Api/duckFetch.js';
 export default class editarActivo extends HTMLElement {
     constructor() {
         super();

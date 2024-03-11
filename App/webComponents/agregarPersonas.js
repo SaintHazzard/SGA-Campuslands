@@ -1,6 +1,4 @@
 import { addSomething, deleteAnything, duckFetch, editSomething, fillOptions } from "../../Api/duckFetch.js";
-import { autoIncrementalId } from "../../Api/autoIncremental.js";
-
 
 
 export default class AgregarPersona extends HTMLElement {
@@ -337,12 +335,11 @@ export class eliminarPersona extends HTMLElement {
     fillOptions('personas', selectId);
     fillOptions('tipodepersonas', selectTipo);
 
-
-
     selectId.addEventListener('change', async () => {
       const selectedValue = selectId.value;
+
       if (selectedValue) {
-        const data = await duckFetch('personas', selectedValue, 'GET', null);
+        const data = await duckFetch('personas', selectedValue, 'GET');
         this.querySelector('#validationCustom02').value = data.identification;
         this.querySelector('#validationCustom03').value = data.nombre;
         this.querySelector('#validationCustom04').value = data.email;
@@ -354,7 +351,7 @@ export class eliminarPersona extends HTMLElement {
       }
     });
     this.querySelector('#addSomething').addEventListener('click', () => {
-      deleteAnything.call(this, 'personas', selectId)
+      deleteAnything.call(this, 'personas', selectId.value)
     })
   }
 }

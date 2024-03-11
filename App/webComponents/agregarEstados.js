@@ -1,5 +1,5 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
-import { BaseEliminar } from "./baseEliminar.js";
+import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
 export default class AgregarEstado extends HTMLElement {
@@ -106,8 +106,8 @@ export class editarEstado extends HTMLElement {
 
 customElements.define('editar-estado', editarEstado)
 
-
-export class buscarEstado extends HTMLElement {
+import baseBuscar from "./superClases/baseBuscar.js";
+export class buscarEstado extends baseBuscar {
   constructor() {
     super();
     this.render();
@@ -147,27 +147,10 @@ export class buscarEstado extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
+    super.chargeData('estados')
   }
 
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-    fillOptions('estados', selectId);
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('estados', selectedValue, 'GET', null);
-        console.log(data);
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
 
-  }
 }
 
 customElements.define('buscar-estado', buscarEstado)

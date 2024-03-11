@@ -1,5 +1,5 @@
-import '../../Api/duckFetch.js';
-import { duckFetch } from '../../Api/duckFetch.js';
+import '../../../Api/duckFetch.js';
+import { duckFetch } from '../../../Api/duckFetch.js';
 import buscarActivo from './buscarActivo.js';
 export class eliminarActivo extends buscarActivo {
     searchButton;

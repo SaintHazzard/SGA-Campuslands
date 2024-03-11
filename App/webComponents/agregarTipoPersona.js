@@ -1,7 +1,6 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
-import { BaseEliminar } from "./baseEliminar.js";
-
+import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
 export default class AgregarTipoDePersona extends HTMLElement {

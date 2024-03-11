@@ -1,6 +1,6 @@
 import { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation } from "../../Api/duckFetch.js";
-import { BaseEliminar } from "./baseEliminar.js";
-
+import baseBuscar from "./superClases/baseBuscar.js";
+import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
 export default class AgregarMarca extends HTMLElement {
@@ -110,7 +110,7 @@ customElements.define('editar-marca', editarMarca)
 
 
 
-export class buscarMarca extends AgregarMarca {
+export class buscarMarca extends baseBuscar {
   constructor() {
     super();
     this.render();
@@ -150,24 +150,9 @@ export class buscarMarca extends AgregarMarca {
         </form>
       </div>
     `;
-    this.chargeData()
+    super.chargeData('marcas')
   }
-  async chargeData() {
-    let selectId = this.querySelector('#validationCustom01')
-    fillOptions('marcas', selectId);
-    selectId.addEventListener('change', async () => {
-      const selectedValue = selectId.value;
-      if (selectedValue) {
-        const data = await duckFetch('marcas', selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
-      }
-    });
-  }
+
 }
 
 customElements.define('buscar-marca', buscarMarca)
