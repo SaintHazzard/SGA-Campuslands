@@ -1,4 +1,4 @@
-import { addSomething, deleteAnything, duckFetch, editSomething, fillOptions } from "../../Api/duckFetch.js";
+import { addSomething, deleteAnything, duckFetch, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 
 
 export default class AgregarPersona extends HTMLElement {
@@ -149,7 +149,8 @@ export class editarPersona extends HTMLElement {
         </form>
       </div>
     `;
-    this.chargeData()
+    setupValidation.call(this);
+    this.chargeData();
   }
 
   async chargeData() {
@@ -158,9 +159,6 @@ export class editarPersona extends HTMLElement {
 
     fillOptions('personas', selectId);
     fillOptions('tipodepersonas', selectTipo);
-
-
-
     selectId.addEventListener('change', async () => {
       const selectedValue = selectId.value;
       if (selectedValue) {
@@ -171,9 +169,12 @@ export class editarPersona extends HTMLElement {
         this.querySelector('#validationCustom05').value = data.tipodepersona;
       }
     });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'personas', selectId.value)
-      this.render();
+    this.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (event.target.checkValidity()) {
+        editSomething.call(this, 'personas', selectId.value)
+        this.render();
+      }
     });
   }
 }
@@ -188,9 +189,6 @@ export class buscarPersona extends HTMLElement {
 
   render() {
     this.innerHTML = /* html */ `
-      <style>
-        /* Estilos aquí si es necesario */
-      </style>
       <p class="mx-5"><strong>Buscar Persona</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
@@ -230,7 +228,7 @@ export class buscarPersona extends HTMLElement {
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
-                      Seleccione una persona.
+                      Seleccione un tipo.
                     </div>
                 </div>
         </form>
@@ -325,6 +323,7 @@ export class eliminarPersona extends HTMLElement {
         </form>
       </div>
     `;
+    setupValidation.call(this);
     this.chargeData()
   }
 
@@ -350,8 +349,12 @@ export class eliminarPersona extends HTMLElement {
         }
       }
     });
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      deleteAnything.call(this, 'personas', selectId.value)
+    this.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (event.target.checkValidity()) {
+        deleteAnything.call(this, 'personas', selectId.value)
+        this.render();
+      }
     })
   }
 }
