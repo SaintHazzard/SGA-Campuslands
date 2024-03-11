@@ -181,4 +181,9 @@ function setupValidation() {
   });
 }
 
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement }
+async function updateProductStatus(productId, newStatus) {
+  const data = { estadoId: newStatus.toString() };
+  return await duckFetch('products', productId, 'PUT', data);
+}
+
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement, updateProductStatus}
