@@ -1,12 +1,13 @@
-import { duckFetch, fillOptions, deleteAnything } from '../../../Api/duckFetch.js';
 
-export class BaseEliminar extends HTMLElement {
+import { duckFetch, fillOptions, editSomething } from '../../../Api/duckFetch.js';
 
-  deleteAnything(selectId, endpoint) {
+
+export default class baseEditar extends HTMLElement {
+  editAnything(selectId, endpoint) {
     this.querySelector('form').addEventListener('submit', (event) => {
       event.preventDefault();
       if (event.target.checkValidity()) {
-        deleteAnything.call(this, endpoint, selectId.value);
+        editSomething.call(this, endpoint, selectId.value);
       }
     });
     this.chargeData(endpoint);
@@ -18,12 +19,8 @@ export class BaseEliminar extends HTMLElement {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch(endpoint, selectedValue, 'GET', null);
-        this.querySelector('#validationCustom02').value = data.id;
-        this.querySelector('#validationCustom03').value = data.nombre;
-        let casillas = this.querySelectorAll('[id*="validationCustom"]');
-        for (let i = 1; i < casillas.length; i++) {
-          casillas[i].disabled = true;
-        }
+        this.querySelector('#validationCustom01').value = data.id;
+        this.querySelector('#validationCustom02').value = data.nombre;
       }
     });
   }

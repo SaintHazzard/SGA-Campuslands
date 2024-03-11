@@ -1,6 +1,7 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
 import { BaseEliminar } from "./superClases/baseEliminar.js";
+import baseEditar from "./superClases/baseEditar.js";
 
 
 export default class AgregarTipoDePersona extends HTMLElement {
@@ -57,7 +58,7 @@ export default class AgregarTipoDePersona extends HTMLElement {
 customElements.define("agregar-tipodepersona", AgregarTipoDePersona);
 
 
-export class editarTipoPersona extends HTMLElement {
+export class editarTipoPersona extends baseEditar {
   constructor() {
     super();
     this.render();
@@ -95,11 +96,8 @@ export class editarTipoPersona extends HTMLElement {
       </div>
     `;
     let selectId = this.querySelector('select')
-    fillOptions('tipodepersonas', selectId);
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'tipodepersonas', selectId.value)
-      this.render();
-    });
+    setupValidation.call(this);
+    super.editAnything(selectId, 'estados');
   }
 }
 

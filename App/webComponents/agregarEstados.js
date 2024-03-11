@@ -56,7 +56,7 @@ export default class AgregarEstado extends HTMLElement {
 customElements.define("agregar-estado", AgregarEstado);
 
 
-export class editarEstado extends HTMLElement {
+export class editarEstado extends baseEditar {
   constructor() {
     super();
     this.render();
@@ -94,19 +94,15 @@ export class editarEstado extends HTMLElement {
       </div>
     `;
     let selectId = this.querySelector('select')
-    fillOptions('estados', selectId);
     setupValidation.call(this);
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'estados', selectId.value)
-      this.render();
-    });
-
+    super.editAnything(selectId, 'estados');
   }
 }
 
 customElements.define('editar-estado', editarEstado)
 
 import baseBuscar from "./superClases/baseBuscar.js";
+import baseEditar from "./superClases/baseEditar.js";
 export class buscarEstado extends baseBuscar {
   constructor() {
     super();

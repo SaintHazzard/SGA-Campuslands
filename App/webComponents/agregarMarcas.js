@@ -1,5 +1,6 @@
 import { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation } from "../../Api/duckFetch.js";
 import baseBuscar from "./superClases/baseBuscar.js";
+import baseEditar from "./superClases/baseEditar.js";
 import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
@@ -50,7 +51,7 @@ customElements.define("agregar-marca", AgregarMarca);
 
 
 
-export class editarMarca extends AgregarMarca {
+export class editarMarca extends baseEditar {
   constructor() {
     super();
     this.render();
@@ -91,19 +92,11 @@ export class editarMarca extends AgregarMarca {
         </form>
       </div>
     `;
-    setupValidation.call(this);
     let selectId = this.querySelector('select')
-    fillOptions('marcas', selectId);
-    this.verifyForm(selectId);
+    setupValidation.call(this);
+    super.editAnything(selectId, 'marcas');
   }
-  verifyForm(selectId) {
-    this.querySelector('form').addEventListener('submit', (event) => {
-      event.preventDefault();
-      if (event.target.checkValidity()) {
-        editSomething.call(this, 'marcas', selectId.value);
-      }
-    });
-  }
+
 }
 
 customElements.define('editar-marca', editarMarca)

@@ -9,7 +9,6 @@ export default class baseBuscar extends HTMLElement {
       const selectedValue = selectId.value;
       if (selectedValue) {
         const data = await duckFetch(endPoint, selectedValue, 'GET', null);
-        console.log(data);
         this.querySelector('#validationCustom02').value = data.id;
         this.querySelector('#validationCustom03').value = data.nombre;
         let casillas = this.querySelectorAll('[id*="validationCustom"]');

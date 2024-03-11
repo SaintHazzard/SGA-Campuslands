@@ -1,5 +1,6 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import baseBuscar from "./superClases/baseBuscar.js";
+import baseEditar from "./superClases/baseEditar.js";
 import { BaseEliminar } from "./superClases/baseEliminar.js";
 
 
@@ -57,7 +58,7 @@ export default class AgregarTipoActivos extends HTMLElement {
 customElements.define("agregar-tipodeactivo", AgregarTipoActivos);
 
 
-export class editarTipoActivo extends HTMLElement {
+export class editarTipoActivo extends baseEditar {
   constructor() {
     super();
     this.render();
@@ -95,11 +96,8 @@ export class editarTipoActivo extends HTMLElement {
       </div>
     `;
     let selectId = this.querySelector('select')
-    fillOptions('tipos', selectId);
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'tipos', selectId.value)
-      this.render();
-    });
+    setupValidation.call(this);
+    super.editAnything(selectId, 'tipos');
   }
 }
 

@@ -1,6 +1,7 @@
 import { duckFetch, addSomething, editSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
 import { autoIncrementalId } from "../../Api/autoIncremental.js";
 import { BaseEliminar } from "./superClases/baseEliminar.js";
+import baseEditar from "./superClases/baseEditar.js";
 
 
 export default class AgregarTipoMovimiento extends HTMLElement {
@@ -57,7 +58,7 @@ export default class AgregarTipoMovimiento extends HTMLElement {
 customElements.define("agregar-tipodemovimiento", AgregarTipoMovimiento);
 
 
-export class editarTipoMovimiento extends HTMLElement {
+export class editarTipoMovimiento extends baseEditar {
   constructor() {
     super();
     this.render();
@@ -95,11 +96,8 @@ export class editarTipoMovimiento extends HTMLElement {
       </div>
     `;
     let selectId = this.querySelector('select')
-    fillOptions('movActivos', selectId);
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      editSomething.call(this, 'movActivos', selectId.value)
-      this.render();
-    });
+    setupValidation.call(this);
+    super.editAnything(selectId, 'movActivos');
   }
 }
 
