@@ -79,7 +79,7 @@ async function addSomething(endPoint) {
 }
 async function addAssignement(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
-  let opciones = ['productoId', 'asignamentId', 'fecha', 'comentario']
+  let opciones = ['productId', 'asignamentId', 'fecha', 'comentario']
   const data = fillData(casillas, opciones);
   data.id = String(await autoIncrementalId('asignaractivos'));
   let dataProduct = await duckFetch('products', data.productoId, "GET", null);
