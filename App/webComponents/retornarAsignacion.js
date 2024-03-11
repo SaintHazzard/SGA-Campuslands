@@ -1,3 +1,4 @@
+import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus } from "../../Api/duckFetch.js";
 export class retornarAsignacion extends HTMLElement {
     constructor() {
       super();
@@ -12,7 +13,7 @@ export class retornarAsignacion extends HTMLElement {
         <div class="m-5" id="formAdd">
           <form class="row g-3 needs-validation" novalidate>
             <div class="col-md-3">
-                <label for="validationCustom04" class="form-label">Buscar Activo</label>
+                <label for="validationCustom01" class="form-label">Buscar Activo</label>
                 <select class="form-select" id="validationCustom01" required>
                   <option selected disabled value="">Seleccione...</option>
                 </select>
@@ -26,11 +27,24 @@ export class retornarAsignacion extends HTMLElement {
           </form>
         </div>
       `;
-      this.chargeData()
+      let selectProducts= this.querySelector("#validationCustom01");
+      fillOptionsAssignaments.call(this, "products", selectProducts);
+      setupValidation.call(this);
+      this.verifyForm();
     }
-  
-    async chargeData() {
-      //
+    verifyForm() {
+      this.querySelector('form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (event.target.checkValidity()) {
+          const selectProduct = this.querySelector("#validationCustom01");
+          const productId = selectProduct.value;
+          await updateProductStatus(productId, 0);
+          Swal.fire("Estado actualizado", "El Producto Ha sido retornado", "success");
+          this.render(); // Vuelve a renderizar el componente
+        } else {
+          event.stopPropagation();
+        }
+      });
     }
   }
   
