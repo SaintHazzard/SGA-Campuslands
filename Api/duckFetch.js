@@ -59,7 +59,8 @@ async function editSomething(endpoint, id) {
 
 async function addSomething(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
-  const opciones = casillas.length === 1 ? ['nombre'] : casillas.length === 2 ? ['nombre', 'email'] : ['identification', 'nombre', 'email', 'tipodepersona'];
+  let opciones = casillas.length === 1 ? ['nombre'] : casillas.length === 2 ? ['nombre', 'email'] : ['identification', 'nombre', 'email', 'tipodepersona'];
+  if (endPoint === "assignaments") opciones= ["personaId","fecha"];
   const data = fillData(casillas, opciones);
   console.log(data);
 
@@ -88,9 +89,38 @@ async function fillOptions(endpoint, select) {
     const option = document.createElement('option');
     option.value = element.id;
     option.textContent = element.nombre;
+    
     select.appendChild(option);
   });
 }
+
+async function fillOptionsAssignaments(endpoint, select) {
+  if (endpoint == "products") {
+    const data = await duckFetch(endpoint, null, 'GET', null);
+    data.forEach(element => {
+      const option = document.createElement('option');
+      option.value = element.id;
+      option.textContent = element.DescripcionItem;
+      select.appendChild(option);
+    });
+  }
+  if (endpoint === "assignaments") {
+    const data = await duckFetch(endpoint, null, 'GET', null);
+    const personasData = await Promise.all(data.map(async element => {
+      const persona = await duckFetch("personas", element.personaId, "GET");
+      return { ...element, persona };
+    }));
+
+    personasData.forEach(({ id, fecha, persona }) => {
+      const option = document.createElement('option');
+      option.value = id;
+      option.textContent = `${persona.nombre} - ${fecha}`;
+      select.appendChild(option);
+    });
+  }
+
+}
+
 
 
 function deleteAnything(endPoint, selectId) {
@@ -130,4 +160,4 @@ function setupValidation() {
   });
 }
 
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation }
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation , fillOptionsAssignaments}

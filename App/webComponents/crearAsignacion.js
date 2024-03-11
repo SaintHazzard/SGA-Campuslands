@@ -1,3 +1,5 @@
+import { addSomething, fillOptions, setupValidation } from "../../Api/duckFetch.js";
+
 const jqueryScript = document.createElement('script');
 jqueryScript.src = 'https://code.jquery.com/jquery-3.5.1.min.js';
 document.head.appendChild(jqueryScript);
@@ -14,7 +16,7 @@ export class crearAsignacion extends HTMLElement {
             <form class="row g-3 needs-validation" novalidate>
                 <div class="col-md-5">
                     <label for="validationCustom01" class="form-label">Responsable</label>
-                    <select class="form-select" id="validationCustom11" required>
+                    <select class="form-select" id="validationCustom01" required>
                         <option selected disabled value="">Seleccione...</option>
                         <!-- Opciones del select (responsables) -->
                     </select>
@@ -35,20 +37,21 @@ export class crearAsignacion extends HTMLElement {
             </form>
         </div>
         `
-
+        let selectpersona = this.querySelector("#validationCustom01");
+        fill.call(this, "personas",selectpersona);
+        setupValidation.call(this);
+        this.verifyForm();
     }
-    setupValidation() {
-        const forms = this.querySelectorAll('.needs-validation');
-        forms.forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            });
+    verifyForm() {
+        this.querySelector('form').addEventListener('submit', (event) => {
+          event.preventDefault();
+          if (event.target.checkValidity()) {
+            addSomething.call(this, 'assignaments');
+          } else {
+          }
         });
     }
+    
 }
 
 customElements.define('crearasignacion-asignacione', crearAsignacion)

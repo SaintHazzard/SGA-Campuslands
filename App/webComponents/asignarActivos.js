@@ -1,3 +1,5 @@
+import { fillOptions, fillOptionsAssignaments } from "../../Api/duckFetch.js";
+
 export class asignarActivo extends HTMLElement {
   constructor() {
     super();
@@ -19,8 +21,8 @@ export class asignarActivo extends HTMLElement {
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="validationCustom01" class="form-label">Asignacion</label>
-                    <select class="form-select" id="validationCustom01" required>
+                    <label for="validationCustom02" class="form-label">Asignacion</label>
+                    <select class="form-select" id="validationCustom02" required>
                       <option selected disabled value="">Seleccione...</option>
                     </select>
                     <div class="invalid-feedback">
@@ -28,15 +30,15 @@ export class asignarActivo extends HTMLElement {
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <label for="validationCustom02" class="form-label">Fecha</label>
-                    <input type="date" class="form-control" id="validationCustom02" required>
+                    <label for="validationCustom03" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" id="validationCustom03" required>
                     <div class="invalid-feedback">
                         Seleccione una fecha válida.
                     </div>
                 </div>
                 <div class="col-md-3">
-                  <label for="validationCustom03" class="form-label">Comentario</label>
-                  <input type="text" class="form-control" id="validationCustom07" required>
+                  <label for="validationCustom04" class="form-label">Comentario</label>
+                  <input type="text" class="form-control" id="validationCustom04" required>
                   <div class="invalid-feedback">
                     Escriba un Comentario.
                   </div>
@@ -46,7 +48,12 @@ export class asignarActivo extends HTMLElement {
                 </div>
               </form>
         </div>
-      `;
+      `
+      let selectProducts = this.querySelector("#validationCustom01");
+      fillOptionsAssignaments.call(this, "products", selectProducts);
+      let selectAsignacion = this.querySelector("#validationCustom02");
+      fillOptionsAssignaments.call(this, "assignaments", selectAsignacion);
+
     }
     setupValidation() {
         const forms = this.querySelectorAll('.needs-validation');
