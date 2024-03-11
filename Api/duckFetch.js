@@ -27,33 +27,18 @@ async function HTTPrequest(url, method, data = null) {
 }
 
 function fillData(casillas, opciones) {
-  console.log(casillas, opciones);
-
   const data = {};
-  if (casillas.length == 4) {
-    for (let index = 0; index < casillas.length; index++) {
-      casillas[index].setAttribute('data-set', opciones[index]);
-      data[opciones[index]] = casillas[index].value;
-    }
-  }
-  if (casillas.length == 5) {
-    for (let index = 1; index < casillas.length; index++) {
-      casillas[index].setAttribute('data-set', opciones[index - 1]);
-      data[opciones[index - 1]] = casillas[index].value;
-    }
-  } else if (casillas.length == 1) {
-    casillas[0].setAttribute('data-set', opciones[0]);
-    data[opciones[0]] = casillas[0].value;
-  } else if (casillas.length == 2) {
-    casillas[1].setAttribute('data-set', opciones[0]);
-    data[opciones[0]] = casillas[1].value;
-  }
+  casillas.forEach((casilla, index) => {
+    const key = opciones[index];
+    casilla.setAttribute('data-set', key);
+    data[key] = casilla.value;
+  });
   return data;
-} 1
+}
 
 async function editSomething(endpoint, id) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
-  const opciones = casillas.length === 2 ? ['nombre'] : ['identification', 'nombre', 'email', 'tipodepersona'];
+  const opciones = casillas.length === 2 ? ['id', 'nombre'] : ['id', 'identification', 'nombre', 'email', 'tipodepersona'];
   const data = fillData(casillas, opciones);
   Swal.fire({
     title: "Do you want to save the changes?",
