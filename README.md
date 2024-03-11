@@ -71,4 +71,115 @@ El sistema manejará las siguientes entidades:
 2. Agrega, edita, elimina o busca activos según tus necesidades.
 3. Realiza asignaciones de activos a personas y registra su retorno cuando sea necesario.
 
-¡Disfruta utilizando el sistema de gestión de activos de CampusLands!
+### Api
+
+## duckFetch
+
+Este módulo contiene funciones para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en una API RESTful utilizando la función fetch de JavaScript.
+
+## Funciones
+
+### duckFetch(endpoint, id, request, data)
+
+```js
+async function duckFetch(endpoint, id, request, data)
+```
+
+- **Descripción:** Función asíncrona que realiza una solicitud HTTP a la API.
+- **Parámetros:**
+  - `endpoint` (String): La ruta de la API a la que se realizará la solicitud.
+  - `id` (Number): El ID del recurso a ser modificado o eliminado (opcional).
+  - `request` (String): El método HTTP a utilizar (GET, POST, DELETE, PUT).
+  - `data` (Object): Los datos a enviar en la solicitud (solo para POST y PUT).
+- **Retorna:** Una Promise que se resuelve con la respuesta de la API (si la hay) o lanza un error si ocurre algún problema.
+
+### HTTPrequest(url, method, data)
+
+```js
+async function HTTPrequest(url, method, data = null)
+```
+
+- **Descripción:** Función asíncrona que realiza una solicitud HTTP a una URL específica.
+- **Parámetros:**
+  - `url` (String): La URL a la que se realizará la solicitud.
+  - `method` (String): El método HTTP a utilizar.
+  - `data` (Object): Los datos a enviar en la solicitud (opcional).
+- **Retorna:** Una Promise que se resuelve con la respuesta de la solicitud (si la hay) o lanza un error si ocurre algún problema.
+
+### fillData(casillas, opciones)
+
+```js
+function fillData(casillas, opciones)
+```
+
+- **Descripción:** Función que crea un objeto con los datos de los campos de formulario.
+- **Parámetros:**
+  - `casillas` (NodeList): Una colección de elementos de entrada de formulario.
+  - `opciones` (Array): Un array con las claves para el objeto de datos.
+- **Retorna:** Un objeto con los datos de los campos de formulario.
+
+### editSomething(endpoint, id)
+
+```js
+async function editSomething(endpoint, id)
+```
+
+- **Descripción:** Función asíncrona que muestra una ventana de confirmación para editar un recurso en la API.
+- **Parámetros:**
+  - `endpoint` (String): La ruta de la API donde se realizará la solicitud.
+  - `id` (Number): El ID del recurso a ser editado.
+
+### addSomething(endPoint)
+
+```js
+async function addSomething(endPoint)
+```
+
+- **Descripción:** Función asíncrona que muestra una ventana de confirmación para agregar un nuevo recurso en la API.
+- **Parámetros:**
+  - `endPoint` (String): La ruta de la API donde se realizará la solicitud.
+
+### fillOptions(endpoint, select)
+
+```js
+async function fillOptions(endpoint, select)
+```
+
+- **Descripción:** Función asíncrona que llena un elemento `<select>` con opciones obtenidas de la API.
+- **Parámetros:**
+  - `endpoint` (String): La ruta de la API de donde se obtendrán las opciones.
+  - `select` (HTMLSelectElement): El elemento `<select>` a ser llenado con las opciones.
+
+### deleteAnything(endPoint, selectId)
+
+```js
+function deleteAnything(endPoint, selectId)
+```
+
+- **Descripción:** Función que muestra una ventana de confirmación para eliminar un recurso de la API.
+- **Parámetros:**
+  - `endPoint` (String): La ruta de la API donde se realizará la solicitud.
+  - `selectId` (Number): El ID del recurso a ser eliminado.
+
+### setupValidation()
+
+```js
+function setupValidation()
+```
+
+- **Descripción:** Función que configura la validación de formularios en la página.
+
+## Exportaciones
+
+```js
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation }
+```
+
+Este módulo exporta las siguientes funciones:
+
+- `duckFetch`
+- `addSomething`
+- `editSomething`
+- `fillOptions`
+- `deleteAnything`
+- `setupValidation`
