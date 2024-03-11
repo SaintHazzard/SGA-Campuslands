@@ -14,13 +14,10 @@ async function HTTPrequest(url, method, data = null) {
     headers: head,
     body: data ? JSON.stringify(data) : null
   };
-
   const response = await fetch(url, options);
-
   if (!response.ok) {
     throw new Error("Error en la petición.");
   }
-
   if (response.status !== 204) {
     return await response.json();
   }
@@ -60,10 +57,8 @@ async function editSomething(endpoint, id) {
 async function addSomething(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
   let opciones = casillas.length === 1 ? ['nombre'] : casillas.length === 2 ? ['nombre', 'email'] : ['identification', 'nombre', 'email', 'tipodepersona'];
-  if (endPoint === "assignaments") opciones= ["personaId","fecha"];
+  if (endPoint === "assignaments") opciones = ["personaId", "fecha"];
   const data = fillData(casillas, opciones);
-  console.log(data);
-
   const id = await autoIncrementalId(endPoint);
   data.id = id.toString();
   Swal.fire({
@@ -82,6 +77,31 @@ async function addSomething(endPoint) {
     }
   });
 }
+async function addAssignement(endPoint) {
+  const casillas = this.querySelectorAll('[id*="validationCustom"]');
+  let opciones = ['productoId', 'asignamentId', 'fecha', 'comentario']
+  const data = fillData(casillas, opciones);
+  data.id = String(await autoIncrementalId('products'));
+  let dataProduct = await duckFetch('products', data.productoId, "GET", null);
+  Swal.fire({
+    title: "Do you want to save the changes?",
+    showDenyButton: true,
+    showCancelButton: true,
+    confirmButtonText: "Save",
+    denyButtonText: `Don't save`
+  }).then((result) => {
+    if (result.isConfirmed) {
+      dataProduct.estadoId = "1"
+      duckFetch('products', data.productoId, 'PUT', dataProduct)
+      duckFetch(endPoint, null, 'POST', data)
+      Swal.fire("Saved!", "", "success");
+    } else if (result.isDenied) {
+      Swal.fire("Changes are not saved", "", "info");
+    }
+    this.render();
+  });
+
+}
 
 async function fillOptions(endpoint, select) {
   const data = await duckFetch(endpoint, null, 'GET', null);
@@ -89,7 +109,7 @@ async function fillOptions(endpoint, select) {
     const option = document.createElement('option');
     option.value = element.id;
     option.textContent = element.nombre;
-    
+
     select.appendChild(option);
   });
 }
@@ -98,20 +118,21 @@ async function fillOptionsAssignaments(endpoint, select) {
   if (endpoint == "products") {
     const data = await duckFetch(endpoint, null, 'GET', null);
     data.forEach(element => {
-      const option = document.createElement('option');
-      option.value = element.id;
-      option.textContent = element.DescripcionItem;
-      select.appendChild(option);
+      if (element.estadoId == "0" || !element.estadoId) {
+        const option = document.createElement('option');
+        option.value = element.id;
+        option.textContent = element.DescripcionItem;
+        select.appendChild(option);
+      }
     });
   }
   if (endpoint === "assignaments") {
     const data = await duckFetch(endpoint, null, 'GET', null);
-    const personasData = await Promise.all(data.map(async element => {
+    const assignementsData = await Promise.all(data.map(async element => {
       const persona = await duckFetch("personas", element.personaId, "GET");
       return { ...element, persona };
     }));
-
-    personasData.forEach(({ id, fecha, persona }) => {
+    assignementsData.forEach(({ id, fecha, persona }) => {
       const option = document.createElement('option');
       option.value = id;
       option.textContent = `${persona.nombre} - ${fecha}`;
@@ -160,4 +181,4 @@ function setupValidation() {
   });
 }
 
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation , fillOptionsAssignaments}
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement }

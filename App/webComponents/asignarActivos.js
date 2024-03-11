@@ -1,4 +1,4 @@
-import { fillOptions, fillOptionsAssignaments } from "../../Api/duckFetch.js";
+import { addAssignement, addSomething, fillOptions, fillOptionsAssignaments } from "../../Api/duckFetch.js";
 
 export class asignarActivo extends HTMLElement {
   constructor() {
@@ -49,25 +49,20 @@ export class asignarActivo extends HTMLElement {
               </form>
         </div>
       `
-      let selectProducts = this.querySelector("#validationCustom01");
-      fillOptionsAssignaments.call(this, "products", selectProducts);
-      let selectAsignacion = this.querySelector("#validationCustom02");
-      fillOptionsAssignaments.call(this, "assignaments", selectAsignacion);
-
-    }
-    setupValidation() {
-        const forms = this.querySelectorAll('.needs-validation');
-        forms.forEach(form => {
-          form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          });
-        });
-      }
+    let selectProducts = this.querySelector("#validationCustom01");
+    fillOptionsAssignaments.call(this, "products", selectProducts);
+    let selectAsignacion = this.querySelector("#validationCustom02");
+    fillOptionsAssignaments.call(this, "assignaments", selectAsignacion);
+    this.verifyForm()
   }
-  
-  
-  customElements.define('asignaractivos-asignacione', asignarActivo)
+  verifyForm() {
+    this.querySelector('form').addEventListener('submit', (event) => {
+      if (event.target.checkValidity()) {
+        addAssignement.call(this, 'asignaractivos');
+      }
+    });
+  }
+}
+
+
+customElements.define('asignaractivos-asignacione', asignarActivo)
