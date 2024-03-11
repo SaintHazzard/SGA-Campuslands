@@ -9,9 +9,6 @@ export default class AgregarPersona extends HTMLElement {
 
   render() {
     this.innerHTML = /* html */ `
-      <style>
-        /* Estilos aquí si es necesario */
-      </style>
       <p class="mx-5"><strong>Agregar Persona</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>
@@ -51,14 +48,12 @@ export default class AgregarPersona extends HTMLElement {
         </form>
       </div>
     `;
-
-    this.querySelector('#addSomething').addEventListener('click', () => {
-      addSomething.call(this, 'personas')
-    });
+    this.setupValidation()
   }
 
 
   setupValidation() {
+    this.addOptions();
     const forms = this.querySelectorAll('.needs-validation');
     forms.forEach(form => {
       form.addEventListener('submit', event => {
@@ -69,11 +64,14 @@ export default class AgregarPersona extends HTMLElement {
         form.classList.add('was-validated');
       });
     });
+    this.querySelector('form').addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (event.target.checkValidity()) {
+        addSomething.call(this, 'personas')
+      }
+    });
   }
-  connectedCallback() {
-    this.setupValidation()
-    this.addOptions();
-  }
+
   addOptions() {
     const selectElements = this.querySelectorAll('.form-select')
     duckFetch('tipodepersonas', null, 'GET', null).then(data => {

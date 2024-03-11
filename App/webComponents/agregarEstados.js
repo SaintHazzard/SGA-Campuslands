@@ -145,8 +145,6 @@ export class buscarEstado extends baseBuscar {
     `;
     super.chargeData('estados')
   }
-
-
 }
 
 customElements.define('buscar-estado', buscarEstado)
@@ -158,9 +156,6 @@ export class eliminarEstado extends BaseEliminar {
   }
   render() {
     this.innerHTML = /* html */ `
-      <style>
-        /* Estilos aquí si es necesario */
-      </style>
       <p class="mx-5"><strong>Buscar estado</strong></p>
       <div class="m-5" id="formAdd">
         <form class="row g-3 needs-validation" novalidate>

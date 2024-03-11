@@ -30,7 +30,13 @@ function fillData(casillas, opciones) {
   console.log(casillas, opciones);
 
   const data = {};
-  if (opciones.length == 4) {
+  if (casillas.length == 4) {
+    for (let index = 0; index < casillas.length; index++) {
+      casillas[index].setAttribute('data-set', opciones[index]);
+      data[opciones[index]] = casillas[index].value;
+    }
+  }
+  if (casillas.length == 5) {
     for (let index = 1; index < casillas.length; index++) {
       casillas[index].setAttribute('data-set', opciones[index - 1]);
       data[opciones[index - 1]] = casillas[index].value;
