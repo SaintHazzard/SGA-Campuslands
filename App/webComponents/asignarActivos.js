@@ -1,4 +1,4 @@
-import { fillOptions, fillOptionsAssignaments } from "../../Api/duckFetch.js";
+import { addSomething, fillOptions, fillOptionsAssignaments } from "../../Api/duckFetch.js";
 
 export class asignarActivo extends HTMLElement {
   constructor() {
