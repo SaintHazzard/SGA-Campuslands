@@ -8,7 +8,7 @@ export class sideBar extends HTMLElement {
   render() {
     this.innerHTML = /* html */ `
     <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark overflow-y-scroll overflow-x-hidden" style="width: 280px; height: 100vh;">
-      <a href="../../Index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <a href="../../index.html" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
         <img src="./source/img/logoWhite.png" alt="Logo" width="240">
         <span class="fs-4"></span>
       </a>
@@ -92,25 +92,31 @@ export class sideBar extends HTMLElement {
 
 
   callForm() {
-
     let options = this.querySelectorAll('.nav-item');
     options.forEach((index) => {
       index.addEventListener('click', () => {
+        // Remover la clase 'active' de la etiqueta <side-bar>
+        // this.classList.remove('active');
+
         options.forEach((index) => {
           index.nextElementSibling.style.display = 'none';
-          index.querySelector('a').classList.remove('active')
-        })
-        index.querySelector('a').classList.toggle('active')
-      })
+          index.querySelector('a').classList.remove('active');
+        });
+        index.querySelector('a').classList.toggle('active');
+      });
+
       let word = index.querySelector('a').textContent.replace(/\s+/g, '').slice(0, -1);
       let opcionesLi = index.nextElementSibling;
       opcionesLi.querySelectorAll('li').forEach((li) => {
-        li.setAttribute('DATA-SET', `${li.textContent.toLocaleLowerCase()}-${word}`.replace(/\s+/g, '').toLocaleLowerCase());
+        li.setAttribute('DATA-SET', `${li.textContent.toLocaleLowerCase()}-${word} `.replace(/\s+/g, '').toLocaleLowerCase());
         li.addEventListener('click', () => {
+          if (!li.classList.contains('option-content')) {
+            this.classList.remove('active');
+          }
           document.querySelector('.changeContent').innerHTML = `<${li.getAttribute('DATA-SET')}></${li.getAttribute('DATA-SET')} >`
-        })
-      })
-    })
+        });
+      });
+    });
   }
 }
 
