@@ -17,12 +17,14 @@ export class retornarAsignacion extends HTMLElement {
                 <select class="form-select" id="validationCustom01" required>
                   <option selected disabled value="">Seleccione...</option>
                 </select>
-                <div class="col-12">
-                <button class="btn btn-danger" type="submit" id="addSomething">Retornar</button>
-            </div>
+
+
                 <div class="invalid-feedback">
                   Seleccione un Activo.
                 </div>
+            </div>
+            <div class="col-12">
+<button class="btn btn-danger" type="submit" id="addSomething" >Retornar</button>
             </div>
             <div class="table-responsive small">
         <table class="table table-striped table-sm">
