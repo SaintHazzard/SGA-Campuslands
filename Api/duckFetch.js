@@ -137,10 +137,9 @@ async function fillOptionsAssignaments(endpoint, select) {
       const option = document.createElement('option');
       option.value = id;
       option.textContent = `${persona.nombre} - ${fecha}`;
-      select.appendChild(option);
+      seleDescripcionItemct.appendChild(option);
     });
   }
-
 }
 
 
@@ -183,8 +182,11 @@ function setupValidation() {
 }
 
 async function updateProductStatus(productId, newStatus) {
-  const data = { estadoId: newStatus.toString() };
-  return await duckFetch('products', productId, 'PUT', data);
+  const product = await getProductById(productId);
+  product.estadoId = newStatus;
+  return await duckFetch('products', productId, 'PUT', product);
 }
-
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement, updateProductStatus }
+async function getProductById(productId) {
+  return await duckFetch('products', productId, 'GET');
+}
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement, getProductById,updateProductStatus}

@@ -1,4 +1,4 @@
-import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus } from "../../Api/duckFetch.js";
+import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus, getProductById } from "../../Api/duckFetch.js";
 export class retornarAsignacion extends HTMLElement {
     constructor() {
       super();
@@ -18,7 +18,7 @@ export class retornarAsignacion extends HTMLElement {
                   <option selected disabled value="">Seleccione...</option>
                 </select>
                 <div class="invalid-feedback">
-                  Seleccione una persona.
+                  Seleccione un Activo.
                 </div>
             </div>
             <div class="col-12">
@@ -38,8 +38,8 @@ export class retornarAsignacion extends HTMLElement {
         if (event.target.checkValidity()) {
           const selectProduct = this.querySelector("#validationCustom01");
           const productId = selectProduct.value;
-          await updateProductStatus(productId, 0);
-          Swal.fire("Estado actualizado", "El Producto Ha sido retornado", "success");
+          const updatedProduct = await updateProductStatus(productId, "0");
+          Swal.fire("Estado actualizado", `El estado del producto "${updatedProduct.nombre}" se ha cambiado a 0`, "success");
           this.render(); // Vuelve a renderizar el componente
         } else {
           event.stopPropagation();
