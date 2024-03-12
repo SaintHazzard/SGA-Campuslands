@@ -14,6 +14,7 @@ import './App/webComponents/agregarMarcas.js'
 import './App/webComponents/crearAsignacion.js'
 import './App/webComponents/asignarActivos.js'
 import './App/webComponents/retornarAsignacion.js'
+import './App/webComponents/home.js'
 
 // let data = await duckFetch('products', null, 'GET', null);
 // let dataObject = {};

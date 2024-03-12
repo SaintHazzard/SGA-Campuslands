@@ -303,3 +303,39 @@ main-content {
 .modal-header {
   cursor: move;
 }
+
+.image-container{
+  position: fixed;
+  left: 33.5rem;
+  top: 23rem;
+  object-fit: contain;
+  width: 34vw;
+  transform: translate(-50%, -50%);
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+}
+.img-fluid{
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.image-logo{
+  position: absolute;
+  margin: 0 auto;
+  width: 40rem;
+  height: auto;
+  right: 0rem;
+}
