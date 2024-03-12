@@ -55,7 +55,10 @@ function toggleCollapse(event) {
 }
 
 
-
+let links = document.querySelector('.sidebar');
+document.querySelector('.boton').addEventListener('click', function(){
+    links.classList.toggle('active')
+});
 
 
 

@@ -1,7 +1,7 @@
 import { autoIncrementalId } from "./autoIncremental.js";
 
 const head = new Headers({ "Content-type": "application/json" })
-const URL_API = "/db.json";
+const URL_API = "http://localhost:3000/";
 
 async function duckFetch(endpoint, id, request, data) {
   const url = id ? `${URL_API}${endpoint}/${id}` : `${URL_API}${endpoint}`;
@@ -193,7 +193,7 @@ function deleteAnything(endPoint, selectId) {
   }).then(async (result) => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: "Deleted!",
+        title: "Deleted!",  
         text: "Your assets has been deleted.",
         icon: "success"
       });
