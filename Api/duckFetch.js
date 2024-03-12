@@ -79,10 +79,10 @@ async function addSomething(endPoint) {
 }
 async function addAssignement(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
-  let opciones = ['productoId', 'asignamentId', 'fecha', 'comentario']
+  let opciones = ['productId', 'asignamentId', 'fecha', 'comentario']
   const data = fillData(casillas, opciones);
-  data.id = String(await autoIncrementalId('products'));
-  let dataProduct = await duckFetch('products', data.productoId, "GET", null);
+  data.id = String(await autoIncrementalId('asignaractivos'));
+  let dataProduct = await duckFetch('products', data.productId, "GET", null);
   Swal.fire({
     title: "Do you want to save the changes?",
     showDenyButton: true,
@@ -92,7 +92,8 @@ async function addAssignement(endPoint) {
   }).then((result) => {
     if (result.isConfirmed) {
       dataProduct.estadoId = "1"
-      duckFetch('products', data.productoId, 'PUT', dataProduct)
+      dataProduct.asignaractivoId = data.id
+      duckFetch('products', data.productId, 'PUT', dataProduct)
       duckFetch(endPoint, null, 'POST', data)
       Swal.fire("Saved!", "", "success");
     } else if (result.isDenied) {
