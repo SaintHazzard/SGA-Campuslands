@@ -1,7 +1,7 @@
 import { autoIncrementalId } from "./autoIncremental.js";
 
 const head = new Headers({ "Content-type": "application/json" })
-const URL_API = "db.json";
+const URL_API = "http://localhost:3000/";
 
 async function duckFetch(endpoint, id, request, data) {
   const url = id ? `${URL_API}${endpoint}/${id}` : `${URL_API}${endpoint}`;
@@ -159,15 +159,15 @@ async function addhistory(productId) {
       const assignament = await duckFetch("assignaments", element.assignamentId, "GET");
       let personaId = assignament.personaId;
       const dataProduct = await duckFetch('products', productId, "GET", null);
-      let estadoId = dataProduct.estadoId;
+      let estadoId = "1"
       return { ...element, personaId, estadoId };
     }));
 
     for (const elementData of data1History) {
+      console.log(elementData);
+
       let id = await autoIncrementalId('historialactivos')
-
       elementData.id = id.toString();
-
       duckFetch('historialactivos', null, 'POST', elementData);
     }
   } catch (error) {

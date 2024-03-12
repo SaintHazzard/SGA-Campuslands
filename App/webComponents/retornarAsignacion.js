@@ -32,9 +32,10 @@ export class retornarAsignacion extends HTMLElement {
             <tr>
               <th scope="col">id</th>
               <th scope="col">Persona asignada</th>
+              <th scope="col">Folio asignacion</th>
               <th scope="col">Fecha</th>
               <th scope="col">Comentario</th>
-              <th scope="col">Categoria</th>
+              <th scope="col">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -87,7 +88,6 @@ export class retornarAsignacion extends HTMLElement {
     const informacioHistory = await duckFetch('historialactivos', null, 'GET', null);
     for (const hist of informacioHistory) {
       if (hist.productId == productId) {
-
         let persona = await duckFetch('personas', hist.personaId, "GET", null)
         let estado = await duckFetch('estados', hist.estadoId, "GET", null)
         try {
@@ -95,6 +95,7 @@ export class retornarAsignacion extends HTMLElement {
         <tr>
           <td>${hist.id}</td>
           <td>${persona.nombre}</td>
+          <td>${hist.assignamentId}</td>
           <td>${hist.fecha}</td>
           <td>${hist.comentario}</td>
           <td>${estado.nombre}</td>
