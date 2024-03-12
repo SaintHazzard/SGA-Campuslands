@@ -1,7 +1,7 @@
 import { autoIncrementalId } from "./autoIncremental.js";
 
 const head = new Headers({ "Content-type": "application/json" })
-const URL_API = "http://localhost:3000/";
+const URL_API = "/db.json";
 
 async function duckFetch(endpoint, id, request, data) {
   const url = id ? `${URL_API}${endpoint}/${id}` : `${URL_API}${endpoint}`;
