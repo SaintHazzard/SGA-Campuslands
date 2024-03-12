@@ -79,7 +79,7 @@ async function addSomething(endPoint) {
 }
 async function addAssignement(endPoint) {
   const casillas = this.querySelectorAll('[id*="validationCustom"]');
-  let opciones = ['productId', 'asignamentId', 'fecha', 'comentario']
+  let opciones = ['productId', 'assignamentId', 'fecha', 'comentario']
   const data = fillData(casillas, opciones);
   data.id = String(await autoIncrementalId('asignaractivos'));
   let dataProduct = await duckFetch('products', data.productId, "GET", null);
@@ -115,8 +115,8 @@ async function fillOptions(endpoint, select) {
   });
 }
 
-async function fillOptionsAssignaments(endpoint, select) {
-  if (endpoint == "products") {
+async function fillOptionsAssignaments(endpoint, select, accion = null) {
+  if (endpoint == "products" && !accion) {
     const data = await duckFetch(endpoint, null, 'GET', null);
     data.forEach(element => {
       if (element.estadoId == "0" || !element.estadoId) {
@@ -127,7 +127,18 @@ async function fillOptionsAssignaments(endpoint, select) {
       }
     });
   }
-  if (endpoint === "assignaments") {
+  else if (accion === "retornar") {
+    const data = await duckFetch(endpoint, null, 'GET', null);
+    data.forEach(element => {
+      if (element.estadoId == "1") {
+        const option = document.createElement('option');
+        option.value = element.id;
+        option.textContent = element.DescripcionItem;
+        select.appendChild(option);
+      }
+    });
+  }
+  else if (endpoint === "assignaments") {
     const data = await duckFetch(endpoint, null, 'GET', null);
     const assignementsData = await Promise.all(data.map(async element => {
       const persona = await duckFetch("personas", element.personaId, "GET");
@@ -137,10 +148,33 @@ async function fillOptionsAssignaments(endpoint, select) {
       const option = document.createElement('option');
       option.value = id;
       option.textContent = `${persona.nombre} - ${fecha}`;
-      seleDescripcionItemct.appendChild(option);
+      select.appendChild(option);
     });
   }
 }
+async function addhistory(productId) {
+  try {
+    const dataAsignar = await duckFetch("asignaractivos", null, "GET");
+
+    const data1History = await Promise.all(dataAsignar.filter(element => element.productId === productId).map(async element => {
+      const assignament = await duckFetch("assignaments", element.assignamentId, "GET");
+      let personaId = assignament.personaId;
+      const dataProduct = await duckFetch('products', productId, "GET", null);
+      let estadoId = dataProduct.estadoId;
+      return { ...element, personaId, estadoId };
+    }));
+
+    for (const elementData of data1History) {
+      let id = await autoIncrementalId('historialactivos')
+      console.log(id);
+
+      await duckFetch('historialactivos', "2", 'POST', elementData);
+    }
+  } catch (error) {
+    console.error('Error en addhistory:', error);
+  }
+}
+
 
 
 
@@ -156,7 +190,6 @@ function deleteAnything(endPoint, selectId) {
     confirmButtonText: "Yes, delete it!"
   }).then(async (result) => {
     if (result.isConfirmed) {
-
       Swal.fire({
         title: "Deleted!",
         text: "Your assets has been deleted.",
@@ -182,11 +215,12 @@ function setupValidation() {
 }
 
 async function updateProductStatus(productId, newStatus) {
-  const product = await getProductById(productId);
-  product.estadoId = newStatus;
-  return await duckFetch('products', productId, 'PUT', product);
+  const dataProduct = await duckFetch('products', productId, "GET")
+  dataProduct.estadoId = newStatus;
+  await duckFetch('products', productId, 'PUT', dataProduct);
 }
-async function getProductById(productId) {
-  return await duckFetch('products', productId, 'GET');
-}
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement, getProductById,updateProductStatus}
+
+
+
+
+export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation, fillOptionsAssignaments, addAssignement, updateProductStatus, addhistory }

@@ -1,11 +1,11 @@
-import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus, getProductById } from "../../Api/duckFetch.js";
+import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus, addhistory } from "../../Api/duckFetch.js";
 export class retornarAsignacion extends HTMLElement {
-    constructor() {
-      super();
-      this.render();
-    }
-    render() {
-      this.innerHTML = /* html */ `
+  constructor() {
+    super();
+    this.render();
+  }
+  render() {
+    this.innerHTML = /* html */ `
         <style>
           /* Estilos aquí si es necesario */
         </style>
@@ -27,25 +27,39 @@ export class retornarAsignacion extends HTMLElement {
           </form>
         </div>
       `;
-      let selectProducts= this.querySelector("#validationCustom01");
-      fillOptionsAssignaments.call(this, "products", selectProducts);
-      setupValidation.call(this);
-      this.verifyForm();
-    }
-    verifyForm() {
-      this.querySelector('form').addEventListener('submit', async (event) => {
-        event.preventDefault();
-        if (event.target.checkValidity()) {
-          const selectProduct = this.querySelector("#validationCustom01");
-          const productId = selectProduct.value;
-          const updatedProduct = await updateProductStatus(productId, "0");
-          Swal.fire("Estado actualizado", `El estado del producto "${updatedProduct.nombre}" se ha cambiado a 0`, "success");
-          this.render(); // Vuelve a renderizar el componente
-        } else {
-          event.stopPropagation();
-        }
-      });
-    }
+    let selectProducts = this.querySelector("#validationCustom01");
+    fillOptionsAssignaments.call(this, "products", selectProducts, "retornar");
+    setupValidation.call(this);
+    this.verifyForm();
   }
-  
-  customElements.define('retornaractivo-asignacione', retornarAsignacion)
+  async verifyForm() {
+    this.querySelector('form').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (event.target.checkValidity()) {
+        const selectProduct = this.querySelector("#validationCustom01");
+        const productId = selectProduct.value;
+
+        Swal.fire({
+          title: "Do you want to save the changes?",
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: "Save",
+          denyButtonText: `Don't save`
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire("El estado del productos ha sido actualizao a no asignado!", "", "success");
+            // updateProductStatus(productId, "0");
+            addhistory(productId);
+          } else if (result.isDenied) {
+            Swal.fire("Changes are not saved", "", "info");
+          }
+        });
+        // this.render();
+      } else {
+        event.stopPropagation();
+      }
+    });
+  }
+}
+
+customElements.define('retornaractivo-asignacione', retornarAsignacion)
