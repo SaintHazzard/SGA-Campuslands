@@ -71,115 +71,171 @@ El sistema manejará las siguientes entidades:
 2. Agrega, edita, elimina o busca activos según tus necesidades.
 3. Realiza asignaciones de activos a personas y registra su retorno cuando sea necesario.
 
-### Api
+## Api
 
-## duckFetch
+### **duckFetch(endpoint, id, request, data)**
 
-Este módulo contiene funciones para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en una API RESTful utilizando la función fetch de JavaScript.
-
-## Funciones
-
-### duckFetch(endpoint, id, request, data)
-
-```js
+```javascript
 async function duckFetch(endpoint, id, request, data)
 ```
 
-- **Descripción:** Función asíncrona que realiza una solicitud HTTP a la API.
-- **Parámetros:**
-  - `endpoint` (String): La ruta de la API a la que se realizará la solicitud.
-  - `id` (Number): El ID del recurso a ser modificado o eliminado (opcional).
-  - `request` (String): El método HTTP a utilizar (GET, POST, DELETE, PUT).
-  - `data` (Object): Los datos a enviar en la solicitud (solo para POST y PUT).
-- **Retorna:** Una Promise que se resuelve con la respuesta de la API (si la hay) o lanza un error si ocurre algún problema.
+*   **Descripción:** Función asíncrona que realiza una solicitud fetch a la URL `URL_API` concatenada con `endpoint` y `id` (si se proporciona).
 
-### HTTPrequest(url, method, data)
+*   **Parámetros:**
+    *   `endpoint` (String): El endpoint al que se realizará la solicitud.
+    *   `id` (String | null): El ID del recurso (opcional).
+    *   `request` (String): El método HTTP a utilizar.
+    *   `data` (Object): Los datos a enviar en la solicitud (opcional).
 
-```js
+*   **Retorna:** Una Promise que se resuelve con la respuesta de la solicitud (si la hay) o lanza un error si ocurre algún problema.
+
+### **HTTPrequest(url, method, data)**
+
+```javascript
 async function HTTPrequest(url, method, data = null)
 ```
 
-- **Descripción:** Función asíncrona que realiza una solicitud HTTP a una URL específica.
-- **Parámetros:**
-  - `url` (String): La URL a la que se realizará la solicitud.
-  - `method` (String): El método HTTP a utilizar.
-  - `data` (Object): Los datos a enviar en la solicitud (opcional).
-- **Retorna:** Una Promise que se resuelve con la respuesta de la solicitud (si la hay) o lanza un error si ocurre algún problema.
+*   **Descripción:** Función asíncrona que realiza una solicitud HTTP a una URL específica.
 
-### fillData(casillas, opciones)
+*   **Parámetros:**
+    *   `url` (String): La URL a la que se realizará la solicitud.
+    *   `method` (String): El método HTTP a utilizar.
+    *   `data` (Object): Los datos a enviar en la solicitud (opcional).
 
-```js
+*   **Retorna:** Una Promise que se resuelve con la respuesta de la solicitud (si la hay) o lanza un error si ocurre algún problema.
+
+### **fillData(casillas, opciones)**
+
+```javascript
 function fillData(casillas, opciones)
 ```
 
-- **Descripción:** Función que crea un objeto con los datos de los campos de formulario.
-- **Parámetros:**
-  - `casillas` (NodeList): Una colección de elementos de entrada de formulario.
-  - `opciones` (Array): Un array con las claves para el objeto de datos.
-- **Retorna:** Un objeto con los datos de los campos de formulario.
+*   **Descripción:** Función que crea un objeto `data` a partir de los valores de los elementos `casillas` y las claves `opciones`. Asigna a cada elemento `casilla` un atributo `data-set` con la clave correspondiente.
 
-### editSomething(endpoint, id)
+*   **Parámetros:**
+    *   `casillas` (NodeList): Una lista de elementos HTML.
+    *   `opciones` (Array): Un array de claves.
 
-```js
+*   **Retorna:** Un objeto `data` con las claves y valores correspondientes.
+
+### **editSomething(endpoint, id)**
+
+```javascript
 async function editSomething(endpoint, id)
 ```
 
-- **Descripción:** Función asíncrona que muestra una ventana de confirmación para editar un recurso en la API.
-- **Parámetros:**
-  - `endpoint` (String): La ruta de la API donde se realizará la solicitud.
-  - `id` (Number): El ID del recurso a ser editado.
+*   **Descripción:** Función asíncrona que abre una ventana de confirmación de SweetAlert para guardar los cambios. Si se confirma, llama a `duckFetch` con el método `PUT`, `endpoint` e `id` proporcionados, y los datos recopilados por `fillData`. Luego, renderiza la vista.
 
-### addSomething(endPoint)
+*   **Parámetros:**
+    *   `endpoint` (String): El endpoint al que se realizará la solicitud.
+    *   `id` (String): El ID del recurso.
 
-```js
+*   **Retorna:** Nada.
+
+### **addSomething(endPoint)**
+
+```javascript
 async function addSomething(endPoint)
 ```
 
-- **Descripción:** Función asíncrona que muestra una ventana de confirmación para agregar un nuevo recurso en la API.
-- **Parámetros:**
-  - `endPoint` (String): La ruta de la API donde se realizará la solicitud.
+*   **Descripción:** Función asíncrona que abre una ventana de confirmación de SweetAlert para guardar los cambios. Si se confirma, llama a `duckFetch` con el método `POST`, `endPoint` y los datos recopilados por `fillData`. Además, genera un nuevo ID con `autoIncrementalId` y lo agrega a los datos. Luego, renderiza la vista.
 
-### fillOptions(endpoint, select)
+*   **Parámetros:**
+    *   `endPoint` (String): El endpoint al que se realizará la solicitud.
 
-```js
+*   **Retorna:** Nada.
+
+### **addAssignement(endPoint)**
+
+```javascript
+async function addAssignement(endPoint)
+```
+
+*   **Descripción:** Función asíncrona que abre una ventana de confirmación de SweetAlert para guardar los cambios. Si se confirma, actualiza el estado del producto correspondiente y llama a `duckFetch` con el método `POST`, `endPoint` y los datos recopilados por `fillData`. Además, genera un nuevo ID con `autoIncrementalId` y lo agrega a los datos. Luego, renderiza la vista.
+
+*   **Parámetros:**
+    *   `endPoint` (String): El endpoint al que se realizará la solicitud.
+
+*   **Retorna:** Nada.
+
+### **fillOptions(endpoint, select)**
+
+```javascript
 async function fillOptions(endpoint, select)
 ```
 
-- **Descripción:** Función asíncrona que llena un elemento `<select>` con opciones obtenidas de la API.
-- **Parámetros:**
-  - `endpoint` (String): La ruta de la API de donde se obtendrán las opciones.
-  - `select` (HTMLSelectElement): El elemento `<select>` a ser llenado con las opciones.
+*   **Descripción:** Función asíncrona que obtiene datos de `duckFetch` con el método `GET` y `endpoint` proporcionados. Luego, crea elementos `option` con el `id` y `nombre` de cada elemento de los datos y los agrega al elemento `select`.
 
-### deleteAnything(endPoint, selectId)
+*   **Parámetros:**
+    *   `endpoint` (String): El endpoint al que se realizará la solicitud.
+    *   `select` (HTMLElement): El elemento HTML `<select>` donde se agregarán las opciones.
 
-```js
+*   **Retorna:** Nada.
+
+### **fillOptionsAssignaments(endpoint, select, accion = null)**
+
+```javascript
+async function fillOptionsAssignaments(endpoint, select, accion = null)
+```
+
+*   **Descripción:** Función asíncrona que, dependiendo del valor de `endpoint` y `accion`, obtiene datos de `duckFetch` con el método `GET` y `endpoint` proporcionados. Luego, crea elementos `option` con el `id` y una descripción basada en los datos obtenidos y los agrega al elemento `select`.
+
+*   **Parámetros:**
+    *   `endpoint` (String): El endpoint al que se realizará la solicitud.
+    *   `select` (HTMLElement): El elemento HTML `<select>` donde se agregarán las opciones.
+    *   `accion` (String | null): Una acción adicional (opcional).
+
+*   **Retorna:** Nada.
+
+### **addhistory(productId)**
+
+```javascript
+async function addhistory(productId)
+```
+
+*   **Descripción:** Función asíncrona que obtiene datos de `asignaractivos` y `assignaments` relacionados con el `productId` proporcionado. Luego, crea nuevos registros en `historialactivos` con los datos obtenidos y un nuevo ID generado por `autoIncrementalId`.
+
+*   **Parámetros:**
+    *   `productId` (String): El ID del producto.
+
+*   **Retorna:** Nada.
+
+### **deleteAnything(endPoint, selectId)**
+
+```javascript
 function deleteAnything(endPoint, selectId)
 ```
 
-- **Descripción:** Función que muestra una ventana de confirmación para eliminar un recurso de la API.
-- **Parámetros:**
-  - `endPoint` (String): La ruta de la API donde se realizará la solicitud.
-  - `selectId` (Number): El ID del recurso a ser eliminado.
+*   **Descripción:** Función que abre una ventana de confirmación de SweetAlert para eliminar un elemento. Si se confirma, llama a `duckFetch` con el método `DELETE`, `endPoint` y `selectId` proporcionados. Luego, renderiza la vista.
 
-### setupValidation()
+*   **Parámetros:**
+    *   `endPoint` (String): El endpoint al que se realizará la solicitud.
+    *   `selectId` (String): El ID del elemento a eliminar.
 
-```js
+*   **Retorna:** Nada.
+
+### **setupValidation()**
+
+```javascript
 function setupValidation()
 ```
 
-- **Descripción:** Función que configura la validación de formularios en la página.
+*   **Descripción:** Función que agrega un controlador de eventos `submit` a todos los formularios con la clase `needs-validation`. Si el formulario no es válido, previene el envío y agrega la clase `was-validated` al formulario.
 
-## Exportaciones
+*   **Parámetros:** Ninguno.
 
-```js
-export { duckFetch, addSomething, editSomething, fillOptions, deleteAnything, setupValidation }
+*   **Retorna:** Nada.
+
+### **updateProductStatus(productId, newStatus)**
+
+```javascript
+async function updateProductStatus(productId, newStatus)
 ```
 
-Este módulo exporta las siguientes funciones:
+*   **Descripción:** Función asíncrona que obtiene los datos del producto con `productId` proporcionado y actualiza su `estadoId` con `newStatus`. Luego, llama a `duckFetch` con el método `PUT`, `productId` y los datos actualizados.
 
-- `duckFetch`
-- `addSomething`
-- `editSomething`
-- `fillOptions`
-- `deleteAnything`
-- `setupValidation`
+*   **Parámetros:**
+    *   `productId` (String): El ID del producto.
+    *   `newStatus` (String): El nuevo estado del producto.
+
+*   **Retorna:** Nada.
