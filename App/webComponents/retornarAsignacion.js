@@ -1,10 +1,10 @@
-import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus, addhistory } from "../../Api/duckFetch.js";
+import { addSomething, fillOptions, fillOptionsAssignaments, setupValidation, updateProductStatus, addhistory, duckFetch } from "../../Api/duckFetch.js";
 export class retornarAsignacion extends HTMLElement {
   constructor() {
     super();
     this.render();
   }
-  render() {
+  async render() {
     this.innerHTML = /* html */ `
         <style>
           /* Estilos aquí si es necesario */
@@ -17,13 +17,29 @@ export class retornarAsignacion extends HTMLElement {
                 <select class="form-select" id="validationCustom01" required>
                   <option selected disabled value="">Seleccione...</option>
                 </select>
+                <div class="col-12">
+                <button class="btn btn-danger" type="submit" id="addSomething">Retornar</button>
+            </div>
                 <div class="invalid-feedback">
                   Seleccione un Activo.
                 </div>
             </div>
-            <div class="col-12">
-                <button class="btn btn-danger" type="submit" id="addSomething">Retornar</button>
-            </div>
+            <div class="table-responsive small">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">id</th>
+              <th scope="col">Persona asignada</th>
+              <th scope="col">Fecha</th>
+              <th scope="col">Comentario</th>
+              <th scope="col">Categoria</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+            
           </form>
         </div>
       `;
@@ -31,6 +47,7 @@ export class retornarAsignacion extends HTMLElement {
     fillOptionsAssignaments.call(this, "products", selectProducts, "retornar");
     setupValidation.call(this);
     this.verifyForm();
+    this.querySelector('#validationCustom01').addEventListener('change', this.showHistory)
   }
   async verifyForm() {
     this.querySelector('form').addEventListener('submit', async (event) => {
@@ -38,7 +55,6 @@ export class retornarAsignacion extends HTMLElement {
       if (event.target.checkValidity()) {
         const selectProduct = this.querySelector("#validationCustom01");
         const productId = selectProduct.value;
-
         Swal.fire({
           title: "Do you want to save the changes?",
           showDenyButton: true,
@@ -48,18 +64,50 @@ export class retornarAsignacion extends HTMLElement {
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire("El estado del productos ha sido actualizao a no asignado!", "", "success");
-            // updateProductStatus(productId, "0");
             addhistory(productId);
+            updateProductStatus(productId, "0");
+            this.render();
           } else if (result.isDenied) {
             Swal.fire("Changes are not saved", "", "info");
           }
         });
-        // this.render();
+
       } else {
         event.stopPropagation();
       }
     });
   }
+  showHistory = async () => {
+    const selectProduct = this.querySelector("#validationCustom01");
+    const productId = selectProduct.value;
+    const tbody = this.querySelector('tbody');
+    tbody.innerHTML = ''
+    const informacioHistory = await duckFetch('historialactivos', null, 'GET', null);
+    for (const hist of informacioHistory) {
+      if (hist.productId == productId) {
+
+        let persona = await duckFetch('personas', hist.personaId, "GET", null)
+        let estado = await duckFetch('estados', hist.estadoId, "GET", null)
+        try {
+          tbody.innerHTML += /*html*/`
+        <tr>
+          <td>${hist.id}</td>
+          <td>${persona.nombre}</td>
+          <td>${hist.fecha}</td>
+          <td>${hist.comentario}</td>
+          <td>${estado.nombre}</td>
+        </tr>`;
+        } catch (error) {
+          console.error("Error fetching additional data:", error);
+        }
+      }
+
+    }
+  };
 }
 
+
 customElements.define('retornaractivo-asignacione', retornarAsignacion)
+
+
+// 154.38.171.54: 21

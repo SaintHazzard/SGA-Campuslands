@@ -30,7 +30,7 @@ export class mainContent extends HTMLElement {
               <th scope="col">Descripcion</th>
               <th scope="col">Marca</th>
               <th scope="col">Tipo</th>
-              <th scope="col">Categoria</th>
+              <th scope="col">Estado</th>
             </tr>
           </thead>
           <tbody>
@@ -39,7 +39,7 @@ export class mainContent extends HTMLElement {
       </div>
     </main>`
     const tbody = this.querySelector('tbody');
-
+    tbody.innerHTML = ''
     for (const product of this.dataProduct) {
       try {
         const marca = await duckFetch("marcas", product.marcaId || "0", "GET", null);

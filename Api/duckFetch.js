@@ -155,7 +155,6 @@ async function fillOptionsAssignaments(endpoint, select, accion = null) {
 async function addhistory(productId) {
   try {
     const dataAsignar = await duckFetch("asignaractivos", null, "GET");
-
     const data1History = await Promise.all(dataAsignar.filter(element => element.productId === productId).map(async element => {
       const assignament = await duckFetch("assignaments", element.assignamentId, "GET");
       let personaId = assignament.personaId;
@@ -166,14 +165,17 @@ async function addhistory(productId) {
 
     for (const elementData of data1History) {
       let id = await autoIncrementalId('historialactivos')
-      console.log(id);
 
-      await duckFetch('historialactivos', "2", 'POST', elementData);
+      elementData.id = id.toString();
+
+      duckFetch('historialactivos', null, 'POST', elementData);
     }
   } catch (error) {
     console.error('Error en addhistory:', error);
   }
 }
+
+
 
 
 
