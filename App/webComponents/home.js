@@ -9,6 +9,9 @@ export class home extends HTMLElement{
             <div class="image-container">
                 <img src="source/img/OIG3.png" alt="Imagen" class="img-fluid">
             </div>
+            <div class="image-logo">
+                <img src="source/img/image 1.png" alt="Imagen" class="img-fluid">
+            </div>
         </main>
         `;
     }

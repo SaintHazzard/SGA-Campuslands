@@ -311,7 +311,7 @@ main-content {
   object-fit: contain;
   width: 34vw;
   transform: translate(-50%, -50%);
-  animation: float 7s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
@@ -328,6 +328,14 @@ main-content {
 .img-fluid{
   max-width: 100%;
   height: auto;
-  display: block; /* Evita espacios en blanco debajo de la imagen */
+  display: block;
   margin: 0 auto;
+}
+
+.image-logo{
+  position: absolute;
+  margin: 0 auto;
+  width: 40rem;
+  height: auto;
+  right: 0rem;
 }
