@@ -208,7 +208,7 @@ function deleteAnything(endPoint, selectId) {
   }).then(async (result) => {
     if (result.isConfirmed) {
       Swal.fire({
-        title: "Deleted!",
+        title: "Deleted!",  
         text: "Your assets has been deleted.",
         icon: "success"
       });
