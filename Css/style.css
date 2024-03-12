@@ -303,3 +303,31 @@ main-content {
 .modal-header {
   cursor: move;
 }
+
+.image-container{
+  position: fixed;
+  left: 33.5rem;
+  top: 23rem;
+  object-fit: contain;
+  width: 34vw;
+  transform: translate(-50%, -50%);
+  animation: float 7s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-20px);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+}
+.img-fluid{
+  max-width: 100%;
+  height: auto;
+  display: block; /* Evita espacios en blanco debajo de la imagen */
+  margin: 0 auto;
+}
