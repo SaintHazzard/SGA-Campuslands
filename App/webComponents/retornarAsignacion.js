@@ -67,7 +67,7 @@ export class retornarAsignacion extends HTMLElement {
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire("El estado del productos ha sido actualizao a no asignado!", "", "success");
-            addhistory(productId);
+            // addhistory(productId);
             updateProductStatus(productId, "0");
             this.render();
           } else if (result.isDenied) {

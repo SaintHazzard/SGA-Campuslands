@@ -83,6 +83,8 @@ async function addAssignement(endPoint) {
   const data = fillData(casillas, opciones);
   data.id = String(await autoIncrementalId('asignaractivos'));
   let dataProduct = await duckFetch('products', data.productId, "GET", null);
+  let id = await autoIncrementalId('historialactivos')
+  let asignacionEspecifica = await duckFetch('assignaments', data.assignamentId, "GET", null)
   Swal.fire({
     title: "Do you want to save the changes?",
     showDenyButton: true,
@@ -90,11 +92,22 @@ async function addAssignement(endPoint) {
     confirmButtonText: "Save",
     denyButtonText: `Don't save`
   }).then((result) => {
+
     if (result.isConfirmed) {
       dataProduct.estadoId = "1"
       dataProduct.asignaractivoId = data.id
       duckFetch('products', data.productId, 'PUT', dataProduct)
       duckFetch(endPoint, null, 'POST', data)
+      let data1History = {
+        id: id,
+        "productId": `${data.productId}`,
+        "fecha": `${new Date().toLocaleDateString()}`,
+        "assignamentId": `${data.assignamentId}`,
+        "comentario": `${data.comentario}`,
+        "personaId": `${asignacionEspecifica.personaId}`,
+        "estadoId": "1"
+      }
+      duckFetch('historialactivos', null, "POST", data1History)
       Swal.fire("Saved!", "", "success");
     } else if (result.isDenied) {
       Swal.fire("Changes are not saved", "", "info");
@@ -102,6 +115,29 @@ async function addAssignement(endPoint) {
     this.render();
   });
 
+}
+
+async function addhistory(productId) {
+  try {
+    const dataAsignar = await duckFetch("asignaractivos", null, "GET");
+    const data1History = await Promise.all(dataAsignar.filter(element => element.productId === productId).map(async element => {
+      const assignament = await duckFetch("assignaments", element.assignamentId, "GET");
+      let personaId = assignament.personaId;
+      const dataProduct = await duckFetch('products', productId, "GET", null);
+      let estadoId = "1"
+      return { ...element, personaId, estadoId };
+    }));
+
+    for (const elementData of data1History) {
+      console.log(elementData);
+
+      let id = await autoIncrementalId('historialactivos')
+      elementData.id = id.toString();
+      duckFetch('historialactivos', null, 'POST', elementData);
+    }
+  } catch (error) {
+    console.error('Error en addhistory:', error);
+  }
 }
 
 async function fillOptions(endpoint, select) {
@@ -147,33 +183,12 @@ async function fillOptionsAssignaments(endpoint, select, accion = null) {
     assignementsData.forEach(({ id, fecha, persona }) => {
       const option = document.createElement('option');
       option.value = id;
-      option.textContent = `${persona.nombre} - ${fecha}`;
+      option.textContent = `${persona.nombre} - ${fecha} `;
       select.appendChild(option);
     });
   }
 }
-async function addhistory(productId) {
-  try {
-    const dataAsignar = await duckFetch("asignaractivos", null, "GET");
-    const data1History = await Promise.all(dataAsignar.filter(element => element.productId === productId).map(async element => {
-      const assignament = await duckFetch("assignaments", element.assignamentId, "GET");
-      let personaId = assignament.personaId;
-      const dataProduct = await duckFetch('products', productId, "GET", null);
-      let estadoId = "1"
-      return { ...element, personaId, estadoId };
-    }));
 
-    for (const elementData of data1History) {
-      console.log(elementData);
-
-      let id = await autoIncrementalId('historialactivos')
-      elementData.id = id.toString();
-      duckFetch('historialactivos', null, 'POST', elementData);
-    }
-  } catch (error) {
-    console.error('Error en addhistory:', error);
-  }
-}
 
 
 
